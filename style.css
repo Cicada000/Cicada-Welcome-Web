@@ -1,0 +1,52 @@
+#logo {
+    height: 50px; 
+    margin-left: 20%;
+    margin-top: 25%;
+}
+
+/* 暗色模式 */
+@media (prefers-color-scheme: dark) {
+    body {
+      background-color: black;
+    }
+    #logo {
+        filter: invert(1);
+    }
+    .button {
+        filter: invert(1);
+    }
+}
+
+/* 移动端布局 */
+@media screen and (max-aspect-ratio: 1) {
+    #logo {
+        height: 45px;
+        margin-left: 20%; 
+        margin-top: 50%;
+    }
+    .button {
+        margin-top: 0%;
+        margin-left: 15%;
+    }
+}
+
+.button{
+    background-color: transparent;
+    border-style: solid;
+    background-color: transparent;
+    border-color: black;
+    color: black;
+    height: 30px;
+    width: 200px;
+    border-radius: 0%;
+    border-width: 2px;
+    margin-top: 20px;
+    margin-left: 20%;
+    font-family: 'Poppins', sans-serif;
+    text-align: left;
+    transition: color 0.3s;
+}
+
+button:hover {
+    color: black;
+}
