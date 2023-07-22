@@ -1,7 +1,7 @@
 #logo {
     height: 50px; 
     margin-left: 20%;
-    margin-top: 25%;
+    margin-top: 20%;
 }
 
 /* 暗色模式 */
@@ -12,8 +12,27 @@
     #logo {
         filter: invert(1);
     }
+    .linkbutton {
+        background-color: white;
+        color: black;
+    }
     .button {
         filter: invert(1);
+    }
+    p {
+        filter: invert(1);
+    }
+    .page-number {
+        filter: invert(1);
+    }
+    .linkbox {
+        border-color: white;
+        color: white;
+        transition: all 1s;
+    }
+    .linkbox:hover {
+        color: black;
+        background-color: white;
     }
 }
 
@@ -26,14 +45,39 @@
     }
     .button {
         margin-top: 0%;
-        margin-left: 15%;
+        margin-left: 20%;
     }
+}
+
+/* 反人类的窄屏 */
+@media screen and (max-aspect-ratio: 0.4) {
+    #logo {
+        margin-left: 0;
+    }
+    .button{
+        margin-top: 0;
+        margin-left: 0;
+    }
+}
+
+.linkbutton {
+    background-color: black;
+    color: white;
+    border: 0;
+    font-family: 'Noto Serif TC', serif;
+    border-style: solid;
+    font-size: 15px;
+    transition: all 1s;
+}
+
+.linkbutton:hover {
+    color: white;
+    background-color: black;
 }
 
 .button{
     background-color: transparent;
     border-style: solid;
-    background-color: transparent;
     border-color: black;
     color: black;
     height: 30px;
@@ -42,11 +86,72 @@
     border-width: 2px;
     margin-top: 20px;
     margin-left: 20%;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Serif TC', serif;
     text-align: left;
-    transition: color 0.3s;
+    transition: all 1s;
 }
 
-button:hover {
+.button:hover {
+    color: white;
+    background-color: black;
+}
+
+p {
     color: black;
+    margin-left: 20%;
+    width: 260px;
+    font-family: 'Noto Serif TC', serif;
+}
+
+html::-webkit-scrollbar { /* 隐藏滚动条 */
+    width: 0px; 
+}
+
+.page-number {
+    font-family: 'Noto Serif TC', serif;
+    text-align: center;
+    color: black;
+    font-size: 15px;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 10%;
+    min-width: 50px;
+    max-width: 100px;
+    border: 2px solid black;
+    padding: 2px;
+    background-color: white;
+    transition: color 1s;
+    transition: background-color 1s;
+}
+
+.page-number:hover {
+    color: white;
+    background-color: black;
+}
+
+.linkbox{
+    background-color: transparent;
+    border-style: solid;
+    border-color: black;
+    color: black;
+    height: 200px;
+    width: 200px;
+    border-radius: 0%;
+    border-width: 2px;
+    margin-top: 20px;
+    margin-right: 15px;
+    font-family: 'Noto Serif TC', serif;
+    text-align: left;
+    transition: all 1s;
+}
+
+.linkbox:hover {
+    color: white;
+    background-color: black;
+}
+
+.headpic{
+    margin-top: 10px;
+    height: 30px;
 }

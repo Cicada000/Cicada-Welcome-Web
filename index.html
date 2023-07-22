@@ -4,23 +4,82 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
   </head>
 
   <body>
+
+    <button class="page-number">0%</button>
+
+    <script> //判断页面滚动进度
+    var pageNumber = document.querySelector(".page-number");
+    // 定义一个变量，用来存储定时器的标识符
+    var timer;
+    // 监听滚动事件
+    window.addEventListener("scroll", function() {
+      // 清除之前的定时器，如果有的话
+      clearTimeout(timer);
+      // 显示页码元素
+      pageNumber.style.display = "inline";
+      // 获取滚动距离
+      var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      // 获取文档高度
+      var docHeight = document.body.scrollHeight - window.innerHeight;
+      // 计算百分比
+      var percentage = Math.round(scrollTop / docHeight * 100);
+      // 更新页码元素的内容
+      pageNumber.textContent = percentage + "%";
+      // 设置一个新的定时器，3秒后执行一个函数
+      timer = setTimeout(function() {
+        // 隐藏页码元素
+        pageNumber.style.display = "none";
+      }, 3000); // 3000 毫秒
+    });
+    </script>
+
+    <div style="height: 100%;">
+      <img id="logo" src="resource/SVG/個人簡介.svg" alt="個人簡介">
+      <p>&emsp;&emsp;<span id="year"></span>歲，是學生。</p>
+      <p>&emsp;&emsp;現長居浙江，愛好攝影、小提琴（好久沒練了），喜歡擺弄各種小玩意，<button class="linkbutton">成分複雜</button>。喜歡探索新事物。目前正在努力學習各項知識中......</p>
+      <p>&emsp;&emsp;INFP，努力學習社交中，歡迎PM，熟悉後也許可面基？聯繫方式見下方。</p>
+
+      <script> //JS判断年龄
+        var date = new Date(); // 创建一个Date对象
+        var year = date.getFullYear(); // 获取当前年份
+        var span = document.getElementById("year"); // 获取页面上的span元素
+        span.innerHTML = year - 2005; // 修改span的内容为当前年份减去2005
+      </script>
+
+    </div>
+    
     <div>
-      <a href="" style="display: flex; align-items: center;"><img id="logo" src="resource/聯繫方式.svg" alt="聯繫方式"></a>
+      <img id="logo" src="resource/SVG/聯繫方式.svg" alt="聯繫方式">
+      <br>
       <button class="button" onclick="window.location.href='https://twitter.com/Cicada0001'">Twitter</button>
       <br>
       <button class="button" onclick="window.location.href='https://t.me/CicadaLYW'">Telegram</button>
       <br>
       <button class="button" onclick="window.location.href='https://mastodon.social/@Cicada0001'">Mastodon</button>
       <br>
+      <button class="button" onclick="window.location.href='https://github.com/cicada000'">Github</button>
+      <br>
+      <button class="button" onclick="window.location.href='https://www.instagram.com/cicada000'">Instagram</button>
+      <br>
       <button class="button" onclick="window.location.href='mailto:cicada000@cicada000.xyz'">EMail</button>
       <br>
-      <button class="button" onclick="window.location.href='https://github.com/cicada000'">Github</button>
+      <button class="button" onclick="window.location.href='https://steamcommunity.com/id/cicada000'">Steam</button>
     </div>
-    
+
+    <div>
+      <img id="logo" src="resource/SVG/個人網站.svg" alt="個人網站">
+      <br>
+      <button class="button" onclick="window.location.href='https://blog.cicada000.work'">Blog</button>
+      <br>
+      <button class="button" onclick="window.location.href='https://onetextimage.cicada000.work'">OneText</button>
+      <br>
+      <button class="button" onclick="window.location.href='https://onetext.cicada000.work'">OneText API</button>
+    </div>
+
   </body>
 
 </html>
