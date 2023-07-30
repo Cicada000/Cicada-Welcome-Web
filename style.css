@@ -158,4 +158,5 @@ html::-webkit-scrollbar { /* 隐藏滚动条 */
 
 .img {
     max-height: 50px;
+    min-height: 50px;
 }
