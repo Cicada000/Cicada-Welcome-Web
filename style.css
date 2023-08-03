@@ -1,4 +1,4 @@
-#logo {
+.logo {
     height: 50px; 
     margin-left: 15%;
     margin-top: 20%;
@@ -9,7 +9,7 @@
     body {
         background-color: black;
     }
-    #logo {
+    .logo {
         filter: invert(1);
     }
     .linkbutton {
@@ -35,7 +35,7 @@
 
 /* 移动端布局 */
 @media screen and (max-aspect-ratio: 1) {
-    #logo {
+    .logo {
         height: 45px;
         margin-left: 15%; 
         margin-top: 50%;
@@ -48,7 +48,7 @@
 
 /* 反人类的窄屏 */
 @media screen and (max-aspect-ratio: 0.4) {
-    #logo {
+    .logo {
         margin-left: 0;
     }
     .button{
