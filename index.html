@@ -29,7 +29,7 @@
       // 获取滚动距离
       var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
       // 获取文档高度
-      var docHeight = document.body.scrollHeight - window.innerHeight;
+      var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
       // 计算百分比
       var percentage = Math.round(scrollTop / docHeight * 100);
       // 更新页码元素的内容
