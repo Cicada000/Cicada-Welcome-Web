@@ -142,21 +142,8 @@ html::-webkit-scrollbar { /* 隐藏滚动条 */
     background-color: black;
 }
 
-#right {
-    display: none;
-    position: fixed;
-    right: 20%;
-    bottom: 40%;
-    z-index: 999;
-}
-
-@media screen and (min-aspect-ratio: 1.4) {
-    #right {
-    display: block;
-    }
-}
-
 .img {
     max-height: 50px;
     min-height: 50px;
 }
+
