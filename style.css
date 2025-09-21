@@ -147,3 +147,21 @@ html::-webkit-scrollbar { /* 隐藏滚动条 */
     min-height: 50px;
 }
 
+#threejs-cross {
+    position: fixed;
+    top: 50%;
+    right: 10%;
+    width: 500px;
+    height: 500px;
+    max-height: 80vh;
+    z-index: 10;
+    pointer-events: none;
+    display: block;
+    transform: translateY(-50%);
+}
+@media screen and (max-aspect-ratio: 1.7) {
+    #threejs-cross {
+        display: none;
+    }
+}
+
