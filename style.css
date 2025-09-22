@@ -159,7 +159,7 @@ html::-webkit-scrollbar { /* 隐藏滚动条 */
     display: block;
     transform: translateY(-50%);
 }
-@media screen and (max-aspect-ratio: 1.7) {
+@media screen and (max-width: 1200px) {
     #threejs-cross {
         display: none;
     }
