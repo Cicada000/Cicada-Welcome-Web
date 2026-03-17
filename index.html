@@ -1,318 +1,332 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-  <head>
-    <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/htmx.org@1.9.3"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.154.0/build/three.min.js"></script>
-    <script src="resource/OBJLoader.js"></script>
-    <title>
-      Cicada000's Website
-    </title>
-  </head>
 
-  <body>
+<head>
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/htmx.org@1.9.3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.154.0/build/three.min.js"></script>
+  <script src="resource/OBJLoader.js"></script>
+  <link rel="icon" href="https://cdn.jsdelivr.net/gh/Cicada000/Cicada000/icon.ico">
+  <title>
+    Cicada000's Website
+  </title>
+</head>
 
-    <button class="page-number">0%</button>
+<body>
 
-    <script> //判断页面滚动进度
+  <button class="page-number">0%</button>
+
+  <script> //判断页面滚动进度
     var pageNumber = document.querySelector(".page-number");
-    // 定义一个变量，用来存储定时器的标识符
     var timer;
-    // 监听滚动事件
-    window.addEventListener("scroll", function() {
-      // 清除之前的定时器，如果有的话
+    window.addEventListener("scroll", function () {
       clearTimeout(timer);
-      // 显示页码元素
       pageNumber.style.display = "inline";
-      // 获取滚动距离
       var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-      // 获取文档高度
       var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      // 计算百分比
       var percentage = Math.round(scrollTop / docHeight * 100);
-      // 更新页码元素的内容
       pageNumber.textContent = percentage + "%";
-      // 设置一个新的定时器，3秒后执行一个函数
-      timer = setTimeout(function() {
-        // 隐藏页码元素
+      timer = setTimeout(function () {
         pageNumber.style.display = "none";
-      }, 3000); // 3000 毫秒
+      }, 3000);
     });
+  </script>
+
+  <div style="height: 100%;">
+    <img class="logo" src="resource/SVG/個人簡介.svg" alt="個人簡介">
+    <div style="margin-left: -6%;">
+      <p>&emsp;&emsp;<span id="year"></span>歲，是學生。</p>
+      <p>&emsp;&emsp;現長居浙江，愛好攝影、小提琴（好久沒練了），喜歡擺弄各種小玩意，<button
+          class="linkbutton">成分複雜</button>。喜歡探索新事物。目前正在努力學習各項知識中......</p>
+      <p>&emsp;&emsp;INFP，努力學習社交中，歡迎PM，熟悉後也許可面基？聯繫方式見下方。</p>
+    </div>
+
+    <script> //JS判断年龄
+      var date = new Date();
+      var year = date.getFullYear();
+      var span = document.getElementById("year");
+      span.innerHTML = year - 2005;
     </script>
 
-    <div style="height: 100%;">
-      <img class="logo" src="resource/SVG/個人簡介.svg" alt="個人簡介">
-      <div style="margin-left: -6%;">
-      <p>&emsp;&emsp;<span id="year"></span>歲，是學生。</p>
-      <p>&emsp;&emsp;現長居浙江，愛好攝影、小提琴（好久沒練了），喜歡擺弄各種小玩意，<button class="linkbutton">成分複雜</button>。喜歡探索新事物。目前正在努力學習各項知識中......</p>
-      <p>&emsp;&emsp;INFP，努力學習社交中，歡迎PM，熟悉後也許可面基？聯繫方式見下方。</p>
-      </div>
+  </div>
 
-      <script> //JS判断年龄
-        var date = new Date(); // 创建一个Date对象
-        var year = date.getFullYear(); // 获取当前年份
-        var span = document.getElementById("year"); // 获取页面上的span元素
-        span.innerHTML = year - 2005; // 修改span的内容为当前年份减去2005
-      </script>
-
+  <div">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
     </div>
 
-    <div">
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-    </div>
-    
     <div style="height: 100%;">
       <img class="logo" src="resource/SVG/聯繫方式.svg" alt="聯繫方式">
       <br>
-      <button class="button" onclick="window.location.href='https://twitter.com/Cicada0001'">Twitter</button>
+      <button class="button" onclick="window.open('https://twitter.com/Cicada0001', '_blank')">Twitter</button>
       <br>
-      <button class="button" onclick="window.location.href='https://t.me/CicadaLYW'">Telegram</button>
+      <button class="button" onclick="window.open('https://t.me/CicadaLYW', '_blank')">Telegram</button>
       <br>
-      <button class="button" onclick="window.location.href='https://mastodon.social/@Cicada0001'">Mastodon</button>
+      <button class="button" onclick="window.open('https://mastodon.social/@Cicada0001', '_blank')">Mastodon</button>
       <br>
-      <button class="button" onclick="window.location.href='https://github.com/cicada000'">Github</button>
+      <button class="button" onclick="window.open('https://github.com/cicada000', '_blank')">Github</button>
       <br>
-      <button class="button" onclick="window.location.href='https://www.instagram.com/cicada000'">Instagram</button>
+      <button class="button" onclick="window.open('https://www.instagram.com/cicada000', '_blank')">Instagram</button>
       <br>
-      <button class="button" onclick="window.location.href='mailto:cicada000@cicada000.work'">Email</button>
+      <button class="button" onclick="window.open('mailto:cicada000@cicada000.work', '_blank')">Email</button>
       <br>
-      <button class="button" onclick="window.location.href='https://steamcommunity.com/id/cicada000'">Steam</button>
+      <button class="button" onclick="window.open('https://steamcommunity.com/id/cicada000', '_blank')">Steam</button>
     </div>
 
     <div style="height: 100%;">
       <img class="logo" src="resource/SVG/個人網站.svg" alt="個人網站">
       <br>
-      <button class="button" onclick="window.location.href='https://blog.cicada000.work'">Blog</button>
+      <button class="button" onclick="window.open('https://blog.cicada000.work', '_blank')">Blog</button>
       <br>
-      <button class="button" onclick="window.location.href='https://onetextimage.cicada000.work'">OneText</button>
+      <button class="button" onclick="window.open('https://onetextimage.cicada000.work', '_blank')">OneText</button>
       <br>
-      <button class="button" onclick="window.location.href='https://onetext.cicada000.work'">OneText API</button>
+      <button class="button" onclick="window.open('https://onetext.cicada000.work', '_blank')">OneText API</button>
       <br>
-      <button class="button" onclick="window.location.href='https://seiheki-demo.cicada000.work/'">Hugo-Theme-Seiheki</button>
+      <button class="button"
+        onclick="window.location.href='https://seiheki-demo.cicada000.work/'">Hugo-Theme-Seiheki</button>
     </div>
 
     <div style="min-height: 100%; margin-left: 15%; width: 60%; max-width: 670px;">
       <img class="logo" src="resource/SVG/友鏈.svg" alt="友鏈" style="margin-left: 0;">
       <br>
-      <button class="linkbox" onclick="window.location.href='https://with.fish/'">
-          <img src="https://with.fish/favicon.jpg" onerror="this.src='resource/SVG/404.svg'" alt="lz233" class="img">
+      <button class="linkbox" onclick="window.open('https://with.fish/', '_blank')">
+        <img src="https://with.fish/favicon.jpg" onerror="this.src='resource/SVG/404.svg'" alt="lz233"
+          referrerpolicy="no-referrer" class="img">
         <br>
         with.fish
         <br>
         魚類觀測研究所
       </button>
 
-      <button class="linkbox" onclick="window.location.href='https://nedifinita.com'">
-          <img src="https://nedifinita.com/picture.jpg" onerror="this.src='resource/SVG/404.svg'" alt="nedifinita" class="img">
+      <button class="linkbox" onclick="window.open('https://noxylva.org', '_blank')">
+        <img src="https://nedifinita.com/picture.jpg" onerror="this.src='resource/SVG/404.svg'" alt="nedifinita"
+          referrerpolicy="no-referrer" class="img">
         <br>
         Nedifinita
         <br>
         El nom és obligatori
       </button>
 
-      <button class="linkbox" onclick="window.location.href='https://cynosura.one'">
-          <img src="https://cynosura.one/img/avatar.webp" onerror="this.src='resource/SVG/404.svg'" alt="Cynosura" class="img">
+      <button class="linkbox" onclick="window.open('https://cynosura.one', '_blank')">
+        <img src="https://cynosura.one/img/avatar.webp" onerror="this.src='resource/SVG/404.svg'" alt="Cynosura"
+          referrerpolicy="no-referrer" class="img">
         <br>
         Cynosura
         <br>
         &emsp;
       </button>
 
-      <button class="linkbox" onclick="window.location.href='https://stv.lol'">
-          <img src="https://stv.lol/img/avatar.webp" onerror="this.src='resource/SVG/404.svg'" alt="Steven Lynn" class="img">
+      <button class="linkbox" onclick="window.open('https://stv.pm', '_blank')">
+        <img src="https://stv.pm/favicon.jpeg" onerror="this.src='resource/SVG/404.svg'" alt="Steven Lynn"
+          referrerpolicy="no-referrer" class="img">
         <br>
         Steven Lynn
         <br>
         &emsp;
       </button>
 
-      <button class="linkbox" onclick="window.location.href='https://miobyte.net'">
-          <img src="https://miobyte.net/avatar.png" onerror="this.src='resource/SVG/404.svg'" alt="miobyte" class="img">
-        <br>
-        澪字節
-        <br>
-        雨澪汐
-      </button>
-
-      <button class="linkbox" onclick="window.location.href='https://mikan.bangdream.moe'">
-          <img src="https://mikan.bangdream.moe/img/avatar.8981bd1d.jpg" onerror="this.src='resource/SVG/404.svg'" alt="Mikan" class="img">
-        <br>
-        Mikan
-        <br>
-        Mikan's Home Page
-      </button>
-
-      <button class="linkbox" onclick="window.location.href='https://fika.ink'">
-          <img src="https://pic.imgdb.cn/item/637c14ee16f2c2beb161a26e.jpg" onerror="this.src='resource/SVG/404.svg'" alt="Fika" class="img">
-        <br>
-        Fika
-        <br>
-        Debug the World
-      </button>
-
-      <button class="linkbox" onclick="window.location.href='https://blog.hightechbrain.net'">
-          <img src="https://blog.hightechbrain.net/img/avatar.png" onerror="this.src='resource/SVG/404.svg'" alt="hightechbrain" class="img">
+      <button class="linkbox" onclick="window.open('https://blog.hightechbrain.net', '_blank')">
+        <img src="https://blog.hightechbrain.net/img/avatar.png" onerror="this.src='resource/SVG/404.svg'"
+          alt="hightechbrain" referrerpolicy="no-referrer" class="img">
         <br>
         高科技的指揮中心
         <br>
         &emsp;
       </button>
 
-      <button class="linkbox" onclick="window.location.href='https://blog.tonyding.net'">
-          <img src="	https://pic.imgdb.cn/item/6389956716f2c2beb1a678fc.jpg" onerror="this.src='resource/SVG/404.svg'" alt="TonyDing" class="img">
-        <br>
-        TonyDing's Blog
-        <br>
-        &emsp;
-      </button>
-
-      <button class="linkbox" onclick="window.location.href='https://www.fantanstic.top'">
-          <img src="https://www.fantanstic.top/img/head.jpg" onerror="this.src='resource/SVG/404.svg'" alt="hightechbrain" class="img">
+      <button class="linkbox" onclick="window.open('https://www.fantanstic.top', '_blank')">
+        <img src="https://www.fantanstic.top/img/head.jpg" onerror="this.src='resource/SVG/404.svg'" alt="hightechbrain"
+          referrerpolicy="no-referrer" class="img">
         <br>
         老陳の鹹魚日常
         <br>
         Life is fantanstic.
       </button>
 
-      <button class="linkbox" onclick="window.location.href='https://www.dnxrzl.com'">
-          <img src="https://www.dnxrzl.com/images/logo.png" onerror="this.src='resource/SVG/404.svg'" alt="dnxrzl" class="img">
-        <br>
-        DNXRZL的故事
-        <br>
-        記錄那些日子裡的故事
-      </button>
-
-      <button class="linkbox" onclick="window.location.href='https://www.moraex.com'">
-          <img src="https://www.moraex.com/wp-content/uploads/2022/09/1664001113-mexlogo.png" onerror="this.src='resource/SVG/404.svg'" alt="moraex" class="img">
+      <button class="linkbox" onclick="window.open('https://www.moraex.com', '_blank')">
+        <img src="https://moraex.com/wp-content/uploads/2025/12/mexbloglogo.svg"
+          onerror="this.src='resource/SVG/404.svg'" alt="moraex" referrerpolicy="no-referrer" class="img">
         <br>
         MoraEX博客
         <br>
         學無止境 知行合一
       </button>
 
-      <button class="linkbox" onclick="window.location.href='https://blog.lkurococ.top'">
-          <img src="https://cdn.jsdelivr.net/gh/6isixi/ImgCloud/avatar.jpg" onerror="this.src='resource/SVG/404.svg'" alt="Kurococ Liu" class="img">
-        <br>
-        Kurococ Liu
-        <br>
-        被子外面很危險
-      </button>
-
-      <button class="linkbox" onclick="window.location.href='https://uguisu.ch'">
-          <img src="https://gravatar.com/avatar/1125134ad94e31105aef9c706e9a761d?s=160"  onerror="this.src='resource/SVG/404.svg'" alt="uguisu" class="img">
+      <button class="linkbox" onclick="window.open('https://uguisu.ch', '_blank')">
+        <img src="https://uguisu.ch/wp-content/uploads/favicon-150x150.png" onerror="this.src='resource/SVG/404.svg'"
+          alt="uguisu" referrerpolicy="no-referrer" class="img">
         <br>
         鶯茶
         <br>
         Warbler's Tea
       </button>
 
-      <button class="linkbox" onclick="window.location.href='https://seimo.cn'">
-          <img src="https://s1.ax1x.com/2023/07/28/pCzo9vF.jpg"  onerror="this.src='resource/SVG/404.svg'" alt="seimo" class="img">
+      <button class="linkbox" onclick="window.open('https://seimo.cn', '_blank')">
+        <img src="https://s1.ax1x.com/2023/07/28/pCzo9vF.jpg" onerror="this.src='resource/SVG/404.svg'" alt="seimo"
+          referrerpolicy="no-referrer" class="img">
         <br>
         Seimo's Homepage
         <br>
         不負熱愛，奔赴山河。
       </button>
 
-      <button class="linkbox" onclick="window.location.href='https://blog.messyghost.net'">
-          <img src="https://blog.messyghost.net/favicon.ico"  onerror="this.src='resource/SVG/404.svg'" alt="messyghost" class="img">
+      <button class="linkbox" onclick="window.open('https://blog.messyghost.net', '_blank')">
+        <img src="https://blog.messyghost.net/favicon.ico" onerror="this.src='resource/SVG/404.svg'" alt="messyghost"
+          referrerpolicy="no-referrer" class="img">
         <br>
         Messy Ghost's Blog
         <br>
         仍然在學習中……
       </button>
 
-      <button class="linkbox" onclick="window.location.href='https://ivansnow02.github.io'">
-          <img src="https://ivansnow02.github.io/img/logo.png"  onerror="this.src='resource/SVG/404.svg'" alt="Snow's Blog" class="img">
+      <button class="linkbox" onclick="window.open('https://ivansnow02.github.io', '_blank')">
+        <img src="https://blog.ivansnow02.xyz/img/avatar.png" onerror="this.src='resource/SVG/404.svg'"
+          alt="Snow's Blog" referrerpolicy="no-referrer" class="img">
         <br>
         Snow's Blog
         <br>
         Ivan Snow
       </button>
 
-      <button class="linkbox" onclick="window.location.href='https://blog.xinshijiededa.men'">
-          <img src="https://raw.githubusercontent.com/OverflowCat/blog/test_a/imgs/avatar/xni.png"  onerror="this.src='resource/SVG/404.svg'" alt="xinshijiededamen" class="img">
+      <button class="linkbox" onclick="window.open('https://blog.xinshijiededa.men', '_blank')">
+        <img src="https://raw.githubusercontent.com/OverflowCat/blog/test_a/imgs/avatar/xni.png"
+          onerror="this.src='resource/SVG/404.svg'" alt="xinshijiededamen" referrerpolicy="no-referrer" class="img">
         <br>
         新世界的大门
         <br>
         悟已往之不諫，知來者之可追
       </button>
 
-      <button class="linkbox" onclick="window.location.href='https://www.aprdec.top'">
-          <img src="https://luchetuchuang.oss-cn-beijing.aliyuncs.com/mcskins/aptdec.jpg"  onerror="this.src='resource/SVG/404.svg'" alt="xinshijiededamen" class="img">
+      <button class="linkbox" onclick="window.open('https://www.aprdec.top', '_blank')">
+        <img src="https://luchetuchuang.oss-cn-beijing.aliyuncs.com/mcskins/aptdec.jpg"
+          onerror="this.src='resource/SVG/404.svg'" alt="xinshijiededamen" referrerpolicy="no-referrer" class="img">
         <br>
         孟夏十二の天空
         <br>
         学习,还是学习
       </button>
 
+      <button class="linkbox" onclick="window.open('https://lvyovo-wiki.tech', '_blank')">
+        <img src="https://lvyovo-wiki.tech/images/avatar.png"
+          onerror="this.src='resource/SVG/404.svg'" alt="xinshijiededamen" referrerpolicy="no-referrer" class="img">
+        <br>
+        lvy-neko
+        <br>
+        &emsp;
+      </button>
+
     </div>
 
     <div id="threejs-cross"></div>
     <script>
-if (window.matchMedia("(min-aspect-ratio: 1)").matches) {
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
-  camera.position.z = 30;
+      if (window.matchMedia("(min-aspect-ratio: 1)").matches) {
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+        camera.position.z = 30;
 
-  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-  // renderer.setClearColor(0xffffff, 1); // 白色背景，调试用，当 alpha: false 时启用
-  renderer.setSize(500, 500);
-  renderer.setPixelRatio(window.devicePixelRatio);
-  document.getElementById('threejs-cross').appendChild(renderer.domElement);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(500, 500);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        const container = document.getElementById('threejs-cross');
+        container.appendChild(renderer.domElement);
 
-  // 灯光
-  const light = new THREE.DirectionalLight(0xffffff, 1);
-  light.position.set(5, 10, 7.5);
-  scene.add(light);
+        // 灯光
+        const light = new THREE.DirectionalLight(0xffffff, 1);
+        light.position.set(5, 10, 7.5);
+        scene.add(light);
 
-  const ambient = new THREE.AmbientLight(0xffffff, 0.6);
-scene.add(ambient);
+        const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+        scene.add(ambient);
 
-  // 加载OBJ模型
-  const loader = new THREE.OBJLoader();
-  let model;
-  loader.load('resource/朗基努斯之枪.obj', function(obj) {
-    model = obj;
-    model.scale.set(1.5, 1.5, 1.5); // 根据需要调整大小
+        // 加载OBJ模型
+        const loader = new THREE.OBJLoader();
+        let model;
+        loader.load('resource/朗基努斯之枪.obj', function (obj) {
+          model = obj;
+          model.scale.set(1.5, 1.5, 1.5); // 根据需要调整大小
 
-    // 为所有 mesh 设置基础材质
-    model.traverse(function(child) {
-      if (child.isMesh) {
-        child.material = new THREE.MeshStandardMaterial({
-          color: 0x6C0712, // 灰色
-          metalness: 0.3,
-          roughness: 0.7
+          // 为所有 mesh 设置基础材质
+          model.traverse(function (child) {
+            if (child.isMesh) {
+              child.material = new THREE.MeshStandardMaterial({
+                color: 0x6C0712, // 灰色
+                metalness: 0.3,
+                roughness: 0.7
+              });
+            }
+          });
+
+          scene.add(model);
         });
+
+        // 交互逻辑
+        let isDragging = false;
+        let previousMouseX = 0;
+        let previousMouseY = 0;
+        let autoRotate = true;
+
+        const onPointerDown = (event) => {
+          isDragging = true;
+          autoRotate = false;
+          previousMouseX = event.clientX || (event.touches && event.touches[0].clientX);
+          previousMouseY = event.clientY || (event.touches && event.touches[0].clientY);
+        };
+
+        const onPointerMove = (event) => {
+          if (!isDragging || !model) return;
+
+          if (event.cancelable) event.preventDefault();
+
+          const currentX = event.clientX || (event.touches && event.touches[0].clientX);
+          const currentY = event.clientY || (event.touches && event.touches[0].clientY);
+
+          const deltaX = currentX - previousMouseX;
+          const deltaY = currentY - previousMouseY;
+
+          model.rotation.y += deltaX * 0.01;
+          model.rotation.x += deltaY * 0.01;
+
+          previousMouseX = currentX;
+          previousMouseY = currentY;
+        };
+
+        const onPointerUp = () => {
+          isDragging = false;
+          setTimeout(() => {
+            if (!isDragging) autoRotate = true;
+          }, 1000);
+        };
+
+        container.addEventListener('mousedown', onPointerDown);
+        window.addEventListener('mousemove', onPointerMove);
+        window.addEventListener('mouseup', onPointerUp);
+
+        container.addEventListener('touchstart', onPointerDown, { passive: false });
+        window.addEventListener('touchmove', onPointerMove, { passive: false });
+        window.addEventListener('touchend', onPointerUp);
+
+        function animate() {
+          requestAnimationFrame(animate);
+          if (model && autoRotate) {
+            model.rotation.y += 0.005;
+            model.rotation.x += 0.001;
+            model.rotation.z += 0.001;
+          }
+          renderer.render(scene, camera);
+        }
+        animate();
       }
-    });
-
-    scene.add(model);
-  });
-
-  function animate() {
-    requestAnimationFrame(animate);
-    if (model) {
-      model.rotation.y += 0.005;
-      model.rotation.x += 0.001;
-      model.rotation.z += 0.001;
-    }
-    renderer.render(scene, camera);
-  }
-  animate();
-}
-</script>
-  </body>
+    </script>
+</body>
 
 </html>

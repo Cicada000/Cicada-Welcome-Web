@@ -155,7 +155,7 @@ html::-webkit-scrollbar { /* 隐藏滚动条 */
     height: 500px;
     max-height: 80vh;
     z-index: 10;
-    pointer-events: none;
+    pointer-events: auto;
     display: block;
     transform: translateY(-50%);
 }
