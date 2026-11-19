@@ -341,23 +341,19 @@ button {
 .page-main {
   margin-left: clamp(32px, 11vw, 176px);
   width: min(630px, calc(100vw - 540px));
-  padding-top: clamp(72px, 13vh, 140px);
-  padding-bottom: 64px;
+  padding-block: 0;
   position: relative;
   z-index: 2;
 }
 
 .section {
-  padding-block: clamp(56px, 10vh, 104px);
-  scroll-margin-top: 48px;
-}
-
-.section:first-of-type {
-  padding-top: 0;
-  min-height: clamp(480px, 82vh, 780px);
+  min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding-block: clamp(64px, 10vh, 112px);
+  scroll-margin-top: 0;
 }
 
 /* 章節抬頭（原有 SVG 書法標題） */
@@ -440,7 +436,7 @@ button {
 /* 展開面板（使用 interpolate-size: allow-keywords 平滑過渡到 auto 高度） */
 .ingredient-panel {
   margin-top: 22px;
-  max-width: 520px;
+  max-width: 580px;
   block-size: 0;
   opacity: 0;
   overflow: hidden;
@@ -728,12 +724,7 @@ button {
     margin: 0 auto;
     width: 100%;
     max-width: 680px;
-    padding: 96px 28px 56px;
-  }
-
-  .section:first-of-type {
-    min-height: auto;
-    display: block;
+    padding: 0 28px;
   }
 }
 
@@ -754,7 +745,7 @@ button {
   }
 
   .page-main {
-    padding: 84px 20px 48px;
+    padding: 0 20px;
   }
 
   .logo {

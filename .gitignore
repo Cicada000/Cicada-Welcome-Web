@@ -19,3 +19,6 @@ Desktop.ini
 # Logs & local temp
 *.log
 node_modules/
+
+# Local-only tools
+tag-picker.html
