@@ -1,167 +1,790 @@
-.logo {
-    height: 50px; 
-    margin-left: 15%;
-    margin-top: 20%;
+/* ==========================================================================
+   Cicada000's Website — EVA Monochrome Serif Editorial Style
+   ========================================================================== */
+
+:root {
+  color-scheme: light dark;
+  interpolate-size: allow-keywords;
+
+  /* 基礎色板 */
+  --bg-light: #ffffff;
+  --bg-dark: #080808;
+  --surface-light: #f6f6f6;
+  --surface-dark: #111111;
+  --fg-light: #0a0a0a;
+  --fg-dark: #f2f2f2;
+  --muted-light: #595959;
+  --muted-dark: #949494;
+  --border-subtle-light: rgba(10, 10, 10, 0.16);
+  --border-subtle-dark: rgba(242, 242, 242, 0.18);
+
+  /* 點綴色（朗基努斯深紅）
+     若日後想退回純粹黑白，只需將下面兩行改為 #0a0a0a 與 #f2f2f2 即可 */
+  --accent-light: #6c0712;
+  --accent-dark: #c9182c;
+
+  /* 預設（淺色模式，作為不支援 light-dark() 瀏覽器的回退） */
+  --bg: var(--bg-light);
+  --surface: var(--surface-light);
+  --fg: var(--fg-light);
+  --muted: var(--muted-light);
+  --border: var(--fg-light);
+  --border-subtle: var(--border-subtle-light);
+  --accent: var(--accent-light);
+  --logo-filter: none;
+
+  /* 字體與排版變數 */
+  --font-serif: 'Noto Serif TC', 'Source Han Serif TC', 'Songti TC', serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+
+  /* 過渡節奏 */
+  --ease-sharp: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* 暗色模式 */
+/* 系統暗色模式回退（無手動強制淺色時） */
 @media (prefers-color-scheme: dark) {
-    body {
-        background-color: black;
+  :root:not(:has(> head > meta[name="color-scheme"][content="light"])) {
+    --bg: var(--bg-dark);
+    --surface: var(--surface-dark);
+    --fg: var(--fg-dark);
+    --muted: var(--muted-dark);
+    --border: var(--fg-dark);
+    --border-subtle: var(--border-subtle-dark);
+    --accent: var(--accent-dark);
+    --logo-filter: invert(1);
+  }
+}
+
+/* 同步 <meta name="color-scheme"> 手動切換狀態到 CSS */
+:root:has(> head > meta[name="color-scheme"][content="dark"]) {
+  color-scheme: dark;
+  --bg: var(--bg-dark);
+  --surface: var(--surface-dark);
+  --fg: var(--fg-dark);
+  --muted: var(--muted-dark);
+  --border: var(--fg-dark);
+  --border-subtle: var(--border-subtle-dark);
+  --accent: var(--accent-dark);
+  --logo-filter: invert(1);
+}
+
+:root:has(> head > meta[name="color-scheme"][content="light"]) {
+  color-scheme: light;
+  --bg: var(--bg-light);
+  --surface: var(--surface-light);
+  --fg: var(--fg-light);
+  --muted: var(--muted-light);
+  --border: var(--fg-light);
+  --border-subtle: var(--border-subtle-light);
+  --accent: var(--accent-light);
+  --logo-filter: none;
+}
+
+/* 現代瀏覽器使用原生 light-dark() */
+@supports (color: light-dark(white, black)) {
+  :root {
+    --bg: light-dark(var(--bg-light), var(--bg-dark));
+    --surface: light-dark(var(--surface-light), var(--surface-dark));
+    --fg: light-dark(var(--fg-light), var(--fg-dark));
+    --muted: light-dark(var(--muted-light), var(--muted-dark));
+    --border: light-dark(var(--fg-light), var(--fg-dark));
+    --border-subtle: light-dark(var(--border-subtle-light), var(--border-subtle-dark));
+    --accent: light-dark(var(--accent-light), var(--accent-dark));
+  }
+}
+
+/* ==========================================================================
+   Reset & Base
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--muted) transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.9;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+::selection {
+  background-color: var(--accent);
+  color: #ffffff;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==========================================================================
+   Top Scroll Progress Hairline
+   ========================================================================== */
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--accent);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.scroll-progress.is-visible {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: scroll()) {
+    @keyframes grow-scroll-progress {
+      from {
+        transform: scaleX(0);
+      }
+      to {
+        transform: scaleX(1);
+      }
     }
-    .logo {
-        filter: invert(1);
+
+    .scroll-progress {
+      animation: grow-scroll-progress auto linear;
+      animation-timeline: scroll(root block);
     }
-    .linkbutton {
-        background-color: white;
-        color: black;
-    }
-    .button {
-        filter: invert(1);
-    }
-    p {
-        filter: invert(1);
-    }
-    .page-number {
-        filter: invert(1);
-    }
-    .linkbox {
-        filter: invert(1);
-    }
-    .img {
-        filter: invert(1);
-    }
+  }
 }
 
-/* 移动端布局 */
-@media screen and (max-aspect-ratio: 1) {
-    .logo {
-        height: 45px;
-        margin-left: 15%; 
-        margin-top: 50%;
-    }
-    .button {
-        margin-top: 0%;
-        margin-left: 20%;
-    }
+/* ==========================================================================
+   Fixed Top-Right EVA HUD Control Bar
+   ========================================================================== */
+
+.hud-bar {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  z-index: 90;
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--bg);
+  border: 2px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s ease;
 }
 
-/* 反人类的窄屏 */
-@media screen and (max-aspect-ratio: 0.4) {
-    .logo {
-        margin-left: 0;
-    }
-    .button{
-        margin-top: 0;
-        margin-left: 0;
-    }
+.hud-bar.is-visible {
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.linkbutton {
-    background-color: black;
-    color: white;
-    border: 0;
-    font-family: 'Noto Serif TC', serif;
-    border-style: solid;
-    font-size: 15px;
+.hud-nav {
+  display: inline-flex;
+  align-items: center;
 }
 
-.button{
-    background-color: transparent;
-    border-style: solid;
-    border-color: black;
-    color: black;
-    height: 30px;
-    width: 200px;
-    border-radius: 0%;
-    border-width: 2px;
-    margin-top: 20px;
-    margin-left: 15%;
-    font-family: 'Noto Serif TC', serif;
-    text-align: left;
-    transition: all 1s;
+.hud-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 10px;
+  color: var(--muted);
+  transition: background-color 0.2s var(--ease-sharp), color 0.2s var(--ease-sharp);
+  position: relative;
 }
 
-.button:hover {
-    color: white;
-    background-color: black;
+.hud-link:hover {
+  color: var(--fg);
+  background-color: var(--surface);
 }
 
-p {
-    color: black;
-    margin-left: 20%;
-    width: 260px;
-    font-family: 'Noto Serif TC', serif;
+.hud-link.is-active {
+  color: var(--bg);
+  background-color: var(--fg);
 }
 
-html::-webkit-scrollbar { /* 隐藏滚动条 */
-    width: 0px; 
+.hud-link.is-active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background-color: var(--accent);
 }
 
-.page-number {
-    font-family: 'Noto Serif TC', serif;
-    text-align: center;
-    color: black;
-    font-size: 15px;
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    width: 10%;
-    min-width: 50px;
-    max-width: 100px;
-    border: 2px solid black;
-    padding: 2px;
-    background-color: white;
-    transition: color 1s;
-    transition: background-color 1s;
+.hud-divider {
+  width: 1px;
+  align-self: stretch;
+  background-color: var(--border-subtle);
 }
 
-.page-number:hover {
-    color: white;
-    background-color: black;
+.hud-percent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  padding: 9px 10px;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+  user-select: none;
 }
 
-.linkbox{
-    background-color: transparent;
-    border-style: solid;
-    border-color: black;
-    color: black;
-    height: 125px;
-    width: 200px;
-    border-radius: 0%;
-    border-width: 2px;
-    margin-top: 20px;
-    margin-right: 20px;
-    font-family: 'Noto Serif TC', serif;
-    text-align: left;
-    transition: all 1s;
+.hud-theme-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  color: var(--fg);
+  transition: background-color 0.2s var(--ease-sharp), color 0.2s var(--ease-sharp);
 }
 
-.linkbox:hover {
-    color: white;
-    background-color: black;
+.hud-theme-btn:hover {
+  background-color: var(--fg);
+  color: var(--bg);
 }
 
-.img {
-    max-height: 50px;
-    min-height: 50px;
+.hud-theme-btn svg {
+  width: 14px;
+  height: 14px;
+  display: block;
 }
 
-#threejs-cross {
-    position: fixed;
-    top: 50%;
-    right: 10%;
-    width: 500px;
-    height: 500px;
-    max-height: 80vh;
-    z-index: 10;
-    pointer-events: auto;
+/* 主題按鈕圖示狀態分支（預設淺色顯示月亮；暗色顯示太陽） */
+.hud-theme-btn .icon-sun {
+  display: none;
+}
+.hud-theme-btn .icon-moon {
+  display: block;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(:has(> head > meta[name="color-scheme"][content="light"])) .hud-theme-btn .icon-sun {
     display: block;
-    transform: translateY(-50%);
-}
-@media screen and (max-width: 1200px) {
-    #threejs-cross {
-        display: none;
-    }
+  }
+  :root:not(:has(> head > meta[name="color-scheme"][content="light"])) .hud-theme-btn .icon-moon {
+    display: none;
+  }
 }
 
+:root:has(> head > meta[name="color-scheme"][content="dark"]) .hud-theme-btn .icon-sun {
+  display: block;
+}
+:root:has(> head > meta[name="color-scheme"][content="dark"]) .hud-theme-btn .icon-moon {
+  display: none;
+}
+:root:has(> head > meta[name="color-scheme"][content="light"]) .hud-theme-btn .icon-sun {
+  display: none;
+}
+:root:has(> head > meta[name="color-scheme"][content="light"]) .hud-theme-btn .icon-moon {
+  display: block;
+}
+
+/* ==========================================================================
+   Main Editorial Column
+   ========================================================================== */
+
+.page-main {
+  margin-left: clamp(32px, 11vw, 176px);
+  width: min(630px, calc(100vw - 540px));
+  padding-top: clamp(72px, 13vh, 140px);
+  padding-bottom: 64px;
+  position: relative;
+  z-index: 2;
+}
+
+.section {
+  padding-block: clamp(56px, 10vh, 104px);
+  scroll-margin-top: 48px;
+}
+
+.section:first-of-type {
+  padding-top: 0;
+  min-height: clamp(480px, 82vh, 780px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* 章節抬頭（原有 SVG 書法標題） */
+.section-header {
+  margin-bottom: 32px;
+}
+
+.logo {
+  display: block;
+  height: 48px;
+  width: auto;
+  filter: var(--logo-filter);
+  transition: filter 0.25s ease;
+  user-select: none;
+}
+
+/* ==========================================================================
+   Section 01: Profile & Expandable「成分複雜」
+   ========================================================================== */
+
+.profile-body {
+  max-width: 470px;
+}
+
+.profile-body p {
+  margin: 0 0 1.05em;
+  text-indent: 2em;
+  letter-spacing: 0.03em;
+}
+
+.profile-body p:last-child {
+  margin-bottom: 0;
+}
+
+.age-number {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.ingredient-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0 2px;
+  padding: 1px 8px 2px;
+  background-color: var(--fg);
+  color: var(--bg);
+  border: 1.5px solid var(--fg);
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 0.94em;
+  line-height: 1.45;
+  text-indent: 0;
+  cursor: pointer;
+  vertical-align: baseline;
+  transition: background-color 0.22s var(--ease-sharp),
+              border-color 0.22s var(--ease-sharp),
+              color 0.22s var(--ease-sharp);
+}
+
+.ingredient-trigger:hover,
+.ingredient-trigger[aria-expanded="true"] {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+.trigger-sign {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  line-height: 1;
+  transition: transform 0.25s var(--ease-sharp);
+}
+
+.ingredient-trigger[aria-expanded="true"] .trigger-sign {
+  transform: rotate(45deg);
+}
+
+/* 展開面板（使用 interpolate-size: allow-keywords 平滑過渡到 auto 高度） */
+.ingredient-panel {
+  margin-top: 22px;
+  max-width: 520px;
+  block-size: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: block-size 0.36s var(--ease-sharp), opacity 0.28s ease;
+}
+
+.ingredient-panel.is-open {
+  block-size: auto;
+  opacity: 1;
+}
+
+.ingredient-card {
+  border: 2px solid var(--border);
+  border-left: 4px solid var(--accent);
+  background-color: var(--surface);
+  padding: 18px 20px;
+}
+
+.ingredient-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ingredient-group-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.ingredient-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ingredient-tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border: 1px solid var(--border-subtle);
+  background-color: var(--bg);
+  color: var(--fg);
+  font-size: 13px;
+  line-height: 1.5;
+  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.ingredient-tag:hover {
+  border-color: var(--accent);
+  background-color: var(--accent);
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   Section 02 & 03: Action Cards (Contact & Personal Sites)
+   ========================================================================== */
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.action-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 16px;
+  background-color: transparent;
+  border: 2px solid var(--border);
+  color: var(--fg);
+  position: relative;
+  transition: background-color 0.22s var(--ease-sharp),
+              color 0.22s var(--ease-sharp),
+              border-color 0.22s var(--ease-sharp);
+}
+
+.action-card::before {
+  content: '';
+  position: absolute;
+  left: -2px;
+  top: -2px;
+  bottom: -2px;
+  width: 0;
+  background-color: var(--accent);
+  transition: width 0.22s var(--ease-sharp);
+}
+
+.action-card:hover {
+  background-color: var(--fg);
+  color: var(--bg);
+}
+
+.action-card:hover::before {
+  width: 4px;
+}
+
+.action-card-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.action-card-title {
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.action-card-sub {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.22s var(--ease-sharp);
+}
+
+.action-card:hover .action-card-sub {
+  color: var(--bg);
+  opacity: 0.72;
+}
+
+.action-arrow {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1;
+  transition: transform 0.22s var(--ease-sharp);
+}
+
+.action-card:hover .action-arrow {
+  transform: translate(2px, -2px);
+}
+
+/* ==========================================================================
+   Section 04: Friend Links Grid
+   ========================================================================== */
+
+.friend-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 14px;
+}
+
+.friend-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+  min-height: 132px;
+  padding: 15px 16px;
+  background-color: transparent;
+  border: 2px solid var(--border);
+  color: var(--fg);
+  transition: background-color 0.22s var(--ease-sharp),
+              color 0.22s var(--ease-sharp);
+}
+
+.friend-card:hover {
+  background-color: var(--fg);
+  color: var(--bg);
+}
+
+.friend-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.friend-avatar {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  display: block;
+  border: 1px solid var(--border-subtle);
+  background-color: var(--surface);
+  flex-shrink: 0;
+}
+
+.friend-avatar[src$=".svg"] {
+  object-fit: contain;
+  padding: 4px;
+}
+
+.friend-card:hover .friend-avatar {
+  border-color: var(--bg);
+}
+
+.friend-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.friend-name {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+.friend-bio {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: color 0.22s var(--ease-sharp);
+}
+
+.friend-card:hover .friend-bio {
+  color: var(--bg);
+  opacity: 0.78;
+}
+
+.friend-card:hover .action-arrow {
+  transform: translate(2px, -2px);
+}
+
+/* ==========================================================================
+   Right Fixed 3D Lance of Longinus Stage
+   ========================================================================== */
+
+.threejs-stage {
+  position: fixed;
+  top: 50%;
+  right: clamp(20px, 5vw, 88px);
+  width: clamp(360px, 34vw, 500px);
+  height: clamp(360px, 34vw, 500px);
+  max-height: 78vh;
+  transform: translateY(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  user-select: none;
+  touch-action: none;
+}
+
+.threejs-canvas-wrap {
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.threejs-canvas-wrap.is-ready {
+  opacity: 1;
+}
+
+.threejs-canvas-wrap.is-dragging {
+  cursor: grabbing;
+}
+
+.threejs-canvas-wrap canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+
+@media screen and (max-width: 1023px) {
+  .threejs-stage {
+    display: none;
+  }
+
+  .page-main {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 680px;
+    padding: 96px 28px 56px;
+  }
+
+  .section:first-of-type {
+    min-height: auto;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .hud-bar {
+    top: 14px;
+    right: 14px;
+    font-size: 11px;
+  }
+
+  .hud-link {
+    padding: 8px 8px;
+  }
+
+  .hud-percent {
+    min-width: 42px;
+    padding: 8px 8px;
+  }
+
+  .page-main {
+    padding: 84px 20px 48px;
+  }
+
+  .logo {
+    height: 40px;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .friend-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+  }
+}
+
+/* ==========================================================================
+   Reduced Motion Safety
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-progress,
+  .hud-bar,
+  .ingredient-panel,
+  .trigger-sign,
+  .action-card,
+  .action-card::before,
+  .action-arrow,
+  .friend-card,
+  .threejs-canvas-wrap {
+    transition: none !important;
+  }
+}

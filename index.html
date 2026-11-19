@@ -2,332 +2,819 @@
 <html lang="zh-TW">
 
 <head>
-  <meta name="viewport" content="width=device-width">
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <script>
+    try {
+      document.querySelector('meta[name="color-scheme"]').content =
+        localStorage.getItem('color-scheme') ?? 'light dark';
+    } catch (_) {}
+  </script>
+  <title>Cicada000's Website</title>
+  <link rel="icon" href="https://cdn.jsdelivr.net/gh/Cicada000/Cicada000/icon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/htmx.org@1.9.3"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.154.0/build/three.min.js"></script>
-  <script src="resource/OBJLoader.js"></script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4945678089856740" crossorigin="anonymous"></script>
-  <link rel="icon" href="https://cdn.jsdelivr.net/gh/Cicada000/Cicada000/icon.ico">
-  <title>
-    Cicada000's Website
-  </title>
+  <link rel="stylesheet" href="style.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4945678089856740"
+    crossorigin="anonymous"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
 </head>
 
-<body>
+<body id="top">
 
-  <button class="page-number">0%</button>
+  <!-- 頂部滾動進度細線（與右上角控制欄同步淡入淡出） -->
+  <div class="scroll-progress is-visible" id="scroll-progress" aria-hidden="true"></div>
 
-  <script> //判断页面滚动进度
-    var pageNumber = document.querySelector(".page-number");
-    var timer;
-    window.addEventListener("scroll", function () {
-      clearTimeout(timer);
-      pageNumber.style.display = "inline";
-      var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-      var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      var percentage = Math.round(scrollTop / docHeight * 100);
-      pageNumber.textContent = percentage + "%";
-      timer = setTimeout(function () {
-        pageNumber.style.display = "none";
-      }, 3000);
-    });
+  <!-- 右上角極簡導航 / 進度 / 明暗切換欄（停止滾動 3 秒後淡出，重新滾動時淡入） -->
+  <header class="hud-bar is-visible" id="hud-bar" aria-label="頁面導航與顯示控制">
+    <nav class="hud-nav" aria-label="章節跳轉">
+      <a class="hud-link is-active" href="#profile" data-section="profile" title="個人簡介">01</a>
+      <a class="hud-link" href="#contact" data-section="contact" title="聯繫方式">02</a>
+      <a class="hud-link" href="#sites" data-section="sites" title="個人網站">03</a>
+      <a class="hud-link" href="#links" data-section="links" title="友鏈">04</a>
+    </nav>
+    <span class="hud-divider" aria-hidden="true"></span>
+    <span class="hud-percent" id="scroll-percent" aria-hidden="true">0%</span>
+    <span class="hud-divider" aria-hidden="true"></span>
+    <button type="button" class="hud-theme-btn" id="theme-toggle" title="切換明暗主題">
+      <!-- 暗色模式下顯示太陽（點擊切換為淺色） -->
+      <span class="icon-sun">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v3M12 19v3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M2 12h3M19 12h3M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12"></path>
+        </svg>
+        <span class="sr-only">切換為淺色模式</span>
+      </span>
+      <!-- 淺色模式下顯示月亮（點擊切換為暗色） -->
+      <span class="icon-moon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <span class="sr-only">切換為暗色模式</span>
+      </span>
+    </button>
+  </header>
+
+  <!-- 左側主內容欄 -->
+  <main class="page-main">
+
+    <!-- 個人簡介 -->
+    <section class="section" id="profile" aria-label="個人簡介">
+      <div class="section-header">
+        <img class="logo" src="resource/SVG/個人簡介.svg" alt="個人簡介">
+      </div>
+
+      <div class="profile-body">
+        <p><span id="year" class="age-number"></span>歲，是學生。</p>
+        <p>現長居浙江，愛好攝影、小提琴（好久沒練了），喜歡擺弄各種小玩意，<button type="button" class="ingredient-trigger" id="ingredient-toggle" aria-expanded="false" aria-controls="ingredient-panel">成分複雜<span class="trigger-sign" aria-hidden="true">+</span></button>。喜歡探索新事物。目前正在努力學習各項知識中......</p>
+        <p>INFP，努力學習社交中，歡迎PM，熟悉後也許可面基？聯繫方式見下方。</p>
+      </div>
+
+      <!-- 點擊「成分複雜」展開的關鍵詞（可在頁面底部 INGREDIENTS 中隨時增刪） -->
+      <div class="ingredient-panel" id="ingredient-panel" hidden>
+        <div class="ingredient-card">
+          <div class="ingredient-groups" id="ingredient-groups"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 聯繫方式 -->
+    <section class="section" id="contact" aria-label="聯繫方式">
+      <div class="section-header">
+        <img class="logo" src="resource/SVG/聯繫方式.svg" alt="聯繫方式">
+      </div>
+
+      <div class="card-grid">
+        <a class="action-card" href="https://twitter.com/Cicada0001" target="_blank" rel="noopener noreferrer">
+          <span class="action-card-main">
+            <span class="action-card-title">Twitter</span>
+            <span class="action-card-sub">@Cicada0001</span>
+          </span>
+          <span class="action-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a class="action-card" href="https://t.me/CicadaLYW" target="_blank" rel="noopener noreferrer">
+          <span class="action-card-main">
+            <span class="action-card-title">Telegram</span>
+            <span class="action-card-sub">@CicadaLYW</span>
+          </span>
+          <span class="action-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a class="action-card" href="https://mastodon.social/@Cicada0001" target="_blank" rel="noopener noreferrer">
+          <span class="action-card-main">
+            <span class="action-card-title">Mastodon</span>
+            <span class="action-card-sub">@Cicada0001</span>
+          </span>
+          <span class="action-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a class="action-card" href="https://github.com/cicada000" target="_blank" rel="noopener noreferrer">
+          <span class="action-card-main">
+            <span class="action-card-title">GitHub</span>
+            <span class="action-card-sub">github.com/cicada000</span>
+          </span>
+          <span class="action-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a class="action-card" href="https://www.instagram.com/cicada000" target="_blank" rel="noopener noreferrer">
+          <span class="action-card-main">
+            <span class="action-card-title">Instagram</span>
+            <span class="action-card-sub">@cicada000</span>
+          </span>
+          <span class="action-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a class="action-card" href="mailto:cicada000@cicada000.work">
+          <span class="action-card-main">
+            <span class="action-card-title">Email</span>
+            <span class="action-card-sub">cicada000@cicada000.work</span>
+          </span>
+          <span class="action-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a class="action-card" href="https://steamcommunity.com/id/cicada000" target="_blank" rel="noopener noreferrer">
+          <span class="action-card-main">
+            <span class="action-card-title">Steam</span>
+            <span class="action-card-sub">id/cicada000</span>
+          </span>
+          <span class="action-arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 個人網站 -->
+    <section class="section" id="sites" aria-label="個人網站">
+      <div class="section-header">
+        <img class="logo" src="resource/SVG/個人網站.svg" alt="個人網站">
+      </div>
+
+      <div class="card-grid">
+        <a class="action-card" href="https://blog.cicada000.work" target="_blank" rel="noopener noreferrer">
+          <span class="action-card-main">
+            <span class="action-card-title">Blog</span>
+            <span class="action-card-sub">blog.cicada000.work</span>
+          </span>
+          <span class="action-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a class="action-card" href="https://onetextimage.cicada000.work" target="_blank" rel="noopener noreferrer">
+          <span class="action-card-main">
+            <span class="action-card-title">OneText</span>
+            <span class="action-card-sub">onetextimage.cicada000.work</span>
+          </span>
+          <span class="action-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a class="action-card" href="https://onetext.cicada000.work" target="_blank" rel="noopener noreferrer">
+          <span class="action-card-main">
+            <span class="action-card-title">OneText API</span>
+            <span class="action-card-sub">onetext.cicada000.work</span>
+          </span>
+          <span class="action-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a class="action-card" href="https://seiheki-demo.cicada000.work/" target="_blank" rel="noopener noreferrer">
+          <span class="action-card-main">
+            <span class="action-card-title">Hugo-Theme-Seiheki</span>
+            <span class="action-card-sub">seiheki-demo.cicada000.work</span>
+          </span>
+          <span class="action-arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 友鏈 -->
+    <section class="section" id="links" aria-label="友鏈">
+      <div class="section-header">
+        <img class="logo" src="resource/SVG/友鏈.svg" alt="友鏈">
+      </div>
+
+      <div class="friend-grid">
+        <a class="friend-card" href="https://with.fish/" target="_blank" rel="noopener noreferrer">
+          <div class="friend-card-top">
+            <img class="friend-avatar" src="https://with.fish/favicon.jpg" onerror="this.src='resource/SVG/404.svg'" alt="with.fish" referrerpolicy="no-referrer" loading="lazy">
+            <span class="action-arrow" aria-hidden="true">↗</span>
+          </div>
+          <div class="friend-card-info">
+            <span class="friend-name">with.fish</span>
+            <span class="friend-bio">魚類觀測研究所</span>
+          </div>
+        </a>
+
+        <a class="friend-card" href="https://noxylva.org" target="_blank" rel="noopener noreferrer">
+          <div class="friend-card-top">
+            <img class="friend-avatar" src="https://nedifinita.com/picture.jpg" onerror="this.src='resource/SVG/404.svg'" alt="Nedifinita" referrerpolicy="no-referrer" loading="lazy">
+            <span class="action-arrow" aria-hidden="true">↗</span>
+          </div>
+          <div class="friend-card-info">
+            <span class="friend-name">Nedifinita</span>
+            <span class="friend-bio">El nom és obligatori</span>
+          </div>
+        </a>
+
+        <a class="friend-card" href="https://cynosura.one" target="_blank" rel="noopener noreferrer">
+          <div class="friend-card-top">
+            <img class="friend-avatar" src="https://cynosura.one/img/avatar.webp" onerror="this.src='resource/SVG/404.svg'" alt="Cynosura" referrerpolicy="no-referrer" loading="lazy">
+            <span class="action-arrow" aria-hidden="true">↗</span>
+          </div>
+          <div class="friend-card-info">
+            <span class="friend-name">Cynosura</span>
+          </div>
+        </a>
+
+        <a class="friend-card" href="https://stv.pm" target="_blank" rel="noopener noreferrer">
+          <div class="friend-card-top">
+            <img class="friend-avatar" src="https://stv.pm/favicon.jpeg" onerror="this.src='resource/SVG/404.svg'" alt="Steven Lynn" referrerpolicy="no-referrer" loading="lazy">
+            <span class="action-arrow" aria-hidden="true">↗</span>
+          </div>
+          <div class="friend-card-info">
+            <span class="friend-name">Steven Lynn</span>
+          </div>
+        </a>
+
+        <a class="friend-card" href="https://blog.hightechbrain.net" target="_blank" rel="noopener noreferrer">
+          <div class="friend-card-top">
+            <img class="friend-avatar" src="https://blog.hightechbrain.net/img/avatar.png" onerror="this.src='resource/SVG/404.svg'" alt="高科技的指揮中心" referrerpolicy="no-referrer" loading="lazy">
+            <span class="action-arrow" aria-hidden="true">↗</span>
+          </div>
+          <div class="friend-card-info">
+            <span class="friend-name">高科技的指揮中心</span>
+          </div>
+        </a>
+
+        <a class="friend-card" href="https://www.fantanstic.top" target="_blank" rel="noopener noreferrer">
+          <div class="friend-card-top">
+            <img class="friend-avatar" src="https://www.fantanstic.top/img/head.jpg" onerror="this.src='resource/SVG/404.svg'" alt="老陳の鹹魚日常" referrerpolicy="no-referrer" loading="lazy">
+            <span class="action-arrow" aria-hidden="true">↗</span>
+          </div>
+          <div class="friend-card-info">
+            <span class="friend-name">老陳の鹹魚日常</span>
+            <span class="friend-bio">Life is fantanstic.</span>
+          </div>
+        </a>
+
+        <a class="friend-card" href="https://www.moraex.com" target="_blank" rel="noopener noreferrer">
+          <div class="friend-card-top">
+            <img class="friend-avatar" src="https://moraex.com/wp-content/uploads/2025/12/mexbloglogo.svg" onerror="this.src='resource/SVG/404.svg'" alt="MoraEX博客" referrerpolicy="no-referrer" loading="lazy">
+            <span class="action-arrow" aria-hidden="true">↗</span>
+          </div>
+          <div class="friend-card-info">
+            <span class="friend-name">MoraEX博客</span>
+            <span class="friend-bio">學無止境 知行合一</span>
+          </div>
+        </a>
+
+        <a class="friend-card" href="https://uguisu.ch" target="_blank" rel="noopener noreferrer">
+          <div class="friend-card-top">
+            <img class="friend-avatar" src="https://uguisu.ch/wp-content/uploads/favicon-150x150.png" onerror="this.src='resource/SVG/404.svg'" alt="鶯茶" referrerpolicy="no-referrer" loading="lazy">
+            <span class="action-arrow" aria-hidden="true">↗</span>
+          </div>
+          <div class="friend-card-info">
+            <span class="friend-name">鶯茶</span>
+            <span class="friend-bio">Warbler's Tea</span>
+          </div>
+        </a>
+
+        <a class="friend-card" href="https://seimo.cn" target="_blank" rel="noopener noreferrer">
+          <div class="friend-card-top">
+            <img class="friend-avatar" src="https://s1.ax1x.com/2023/07/28/pCzo9vF.jpg" onerror="this.src='resource/SVG/404.svg'" alt="Seimo's Homepage" referrerpolicy="no-referrer" loading="lazy">
+            <span class="action-arrow" aria-hidden="true">↗</span>
+          </div>
+          <div class="friend-card-info">
+            <span class="friend-name">Seimo's Homepage</span>
+            <span class="friend-bio">不負熱愛，奔赴山河。</span>
+          </div>
+        </a>
+
+        <a class="friend-card" href="https://blog.messyghost.net" target="_blank" rel="noopener noreferrer">
+          <div class="friend-card-top">
+            <img class="friend-avatar" src="https://blog.messyghost.net/favicon.ico" onerror="this.src='resource/SVG/404.svg'" alt="Messy Ghost's Blog" referrerpolicy="no-referrer" loading="lazy">
+            <span class="action-arrow" aria-hidden="true">↗</span>
+          </div>
+          <div class="friend-card-info">
+            <span class="friend-name">Messy Ghost's Blog</span>
+            <span class="friend-bio">仍然在學習中……</span>
+          </div>
+        </a>
+
+        <a class="friend-card" href="https://ivansnow02.github.io" target="_blank" rel="noopener noreferrer">
+          <div class="friend-card-top">
+            <img class="friend-avatar" src="https://blog.ivansnow02.xyz/img/avatar.png" onerror="this.src='resource/SVG/404.svg'" alt="Snow's Blog" referrerpolicy="no-referrer" loading="lazy">
+            <span class="action-arrow" aria-hidden="true">↗</span>
+          </div>
+          <div class="friend-card-info">
+            <span class="friend-name">Snow's Blog</span>
+            <span class="friend-bio">Ivan Snow</span>
+          </div>
+        </a>
+
+        <a class="friend-card" href="https://blog.xinshijiededa.men" target="_blank" rel="noopener noreferrer">
+          <div class="friend-card-top">
+            <img class="friend-avatar" src="https://raw.githubusercontent.com/OverflowCat/blog/test_a/imgs/avatar/xni.png" onerror="this.src='resource/SVG/404.svg'" alt="新世界的大门" referrerpolicy="no-referrer" loading="lazy">
+            <span class="action-arrow" aria-hidden="true">↗</span>
+          </div>
+          <div class="friend-card-info">
+            <span class="friend-name">新世界的大门</span>
+            <span class="friend-bio">悟已往之不諫，知來者之可追</span>
+          </div>
+        </a>
+
+        <a class="friend-card" href="https://www.aprdec.top" target="_blank" rel="noopener noreferrer">
+          <div class="friend-card-top">
+            <img class="friend-avatar" src="https://luchetuchuang.oss-cn-beijing.aliyuncs.com/mcskins/aptdec.jpg" onerror="this.src='resource/SVG/404.svg'" alt="孟夏十二の天空" referrerpolicy="no-referrer" loading="lazy">
+            <span class="action-arrow" aria-hidden="true">↗</span>
+          </div>
+          <div class="friend-card-info">
+            <span class="friend-name">孟夏十二の天空</span>
+            <span class="friend-bio">学习,还是学习</span>
+          </div>
+        </a>
+
+        <a class="friend-card" href="https://lvyovo-wiki.tech" target="_blank" rel="noopener noreferrer">
+          <div class="friend-card-top">
+            <img class="friend-avatar" src="https://lvyovo-wiki.tech/images/avatar.png" onerror="this.src='resource/SVG/404.svg'" alt="lvy-neko" referrerpolicy="no-referrer" loading="lazy">
+            <span class="action-arrow" aria-hidden="true">↗</span>
+          </div>
+          <div class="friend-card-info">
+            <span class="friend-name">lvy-neko</span>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- 右側固定 3D 朗基努斯之槍舞台（寬屏顯示） -->
+  <aside class="threejs-stage" aria-label="朗基努斯之槍 3D 互動模型">
+    <div class="threejs-canvas-wrap" id="threejs-cross"></div>
+  </aside>
+
+  <!-- ========================================================================
+       頁面互動與「成分複雜」關鍵詞配置
+       ======================================================================== -->
+  <script>
+    // ========================================================================
+    // 【成分複雜】關鍵詞配置區 —— 之後直接在這裡增刪即可！
+    //   - 可以往現有分組的 items 裡加新詞（用引號包起來、逗號隔開）
+    //   - 也可以複製一個 { category: '...', items: [...] } 新增分組
+    // ========================================================================
+    const INGREDIENTS = [
+      {
+        category: '興趣',
+        items: ['攝影', '小提琴', '折騰各種小玩意', '探索新事物'],
+      },
+      {
+        category: 'ACG',
+        items: ['EVA 新世紀福音戰士'],
+      },
+      {
+        category: '標籤',
+        items: ['INFP', '浙江', '個人建站', '開源愛好者'],
+      },
+    ];
+
+    // 1. 年齡計算
+    document.getElementById('year').textContent = String(new Date().getFullYear() - 2005);
+
+    // 2. 渲染「成分複雜」展開面板並綁定動畫與無障礙狀態
+    (function setupIngredients() {
+      const toggleBtn = document.getElementById('ingredient-toggle');
+      const panel = document.getElementById('ingredient-panel');
+      const groupsWrap = document.getElementById('ingredient-groups');
+
+      for (const group of INGREDIENTS) {
+        if (!group.items || group.items.length === 0) continue;
+        const groupEl = document.createElement('div');
+
+        if (group.category) {
+          const labelEl = document.createElement('span');
+          labelEl.className = 'ingredient-group-label';
+          labelEl.textContent = group.category;
+          groupEl.appendChild(labelEl);
+        }
+
+        const tagsEl = document.createElement('div');
+        tagsEl.className = 'ingredient-tags';
+        for (const item of group.items) {
+          const tag = document.createElement('span');
+          tag.className = 'ingredient-tag';
+          tag.textContent = item;
+          tagsEl.appendChild(tag);
+        }
+
+        groupEl.appendChild(tagsEl);
+        groupsWrap.appendChild(groupEl);
+      }
+
+      toggleBtn.addEventListener('click', () => {
+        const willOpen = toggleBtn.getAttribute('aria-expanded') !== 'true';
+        toggleBtn.setAttribute('aria-expanded', String(willOpen));
+
+        if (willOpen) {
+          panel.hidden = false;
+          // 強制回流以觸發 block-size 過渡
+          void panel.offsetHeight;
+          panel.classList.add('is-open');
+        } else {
+          panel.classList.remove('is-open');
+          const transitions = panel.getAnimations().filter((a) => a instanceof CSSTransition);
+          if (transitions.length === 0) {
+            panel.hidden = true;
+          } else {
+            Promise.allSettled(transitions.map((t) => t.finished)).then(() => {
+              if (!panel.classList.contains('is-open')) {
+                panel.hidden = true;
+              }
+            });
+          }
+        }
+      });
+    })();
+
+    // 3. 暗色模式兩態切換（遵循系統預設，必要時覆寫並同步多標籤頁）
+    (function setupThemeToggle() {
+      const meta = document.querySelector('meta[name="color-scheme"]');
+      const btn = document.getElementById('theme-toggle');
+      const systemDarkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+      const getSystemScheme = () => (systemDarkQuery.matches ? 'dark' : 'light');
+
+      const getStoredScheme = () => {
+        try {
+          const value = localStorage.getItem('color-scheme');
+          return value === 'light' || value === 'dark' ? value : null;
+        } catch (_) {
+          return null;
+        }
+      };
+
+      const applyScheme = (stored) => {
+        meta.content = stored ?? 'light dark';
+      };
+
+      btn.addEventListener('click', () => {
+        const currentRendered = getStoredScheme() ?? getSystemScheme();
+        const target = currentRendered === 'dark' ? 'light' : 'dark';
+        const nextStored = target === getSystemScheme() ? null : target;
+
+        try {
+          if (nextStored) {
+            localStorage.setItem('color-scheme', nextStored);
+          } else {
+            localStorage.removeItem('color-scheme');
+          }
+        } catch (_) {}
+
+        applyScheme(nextStored);
+      });
+
+      window.addEventListener('storage', (event) => {
+        if (event.key === 'color-scheme') {
+          applyScheme(getStoredScheme());
+        }
+      });
+    })();
+
+    // 4. 滾動進度百分比、進度條回退、右上角控制欄自動淡入淡出與章節高亮
+    (function setupScrollTracking() {
+      const hudBar = document.getElementById('hud-bar');
+      const percentEl = document.getElementById('scroll-percent');
+      const progressEl = document.getElementById('scroll-progress');
+      const supportsScrollTimeline = CSS.supports('animation-timeline', 'scroll()');
+      const navLinks = Array.from(document.querySelectorAll('.hud-link'));
+      const sections = Array.from(document.querySelectorAll('.section[id]'));
+
+      let hudHideTimer = null;
+      let isHudHovered = false;
+
+      const setScrollUiVisible = (visible) => {
+        hudBar.classList.toggle('is-visible', visible);
+        progressEl.classList.toggle('is-visible', visible);
+      };
+
+      const hasKeyboardFocus = () => Boolean(hudBar.querySelector(':focus-visible'));
+
+      const scheduleHudFadeOut = () => {
+        clearTimeout(hudHideTimer);
+        if (isHudHovered || hasKeyboardFocus()) return;
+        hudHideTimer = setTimeout(() => {
+          if (!isHudHovered && !hasKeyboardFocus()) {
+            setScrollUiVisible(false);
+          }
+        }, 3000);
+      };
+
+      const showHud = () => {
+        setScrollUiVisible(true);
+        scheduleHudFadeOut();
+      };
+
+      hudBar.addEventListener('pointerenter', (e) => {
+        if (e.pointerType !== 'mouse') return;
+        isHudHovered = true;
+        clearTimeout(hudHideTimer);
+        setScrollUiVisible(true);
+      });
+
+      hudBar.addEventListener('pointerleave', (e) => {
+        if (e.pointerType !== 'mouse') return;
+        isHudHovered = false;
+        scheduleHudFadeOut();
+      });
+
+      hudBar.addEventListener('click', () => {
+        scheduleHudFadeOut();
+      });
+
+      hudBar.addEventListener('focusin', () => {
+        if (hasKeyboardFocus()) {
+          clearTimeout(hudHideTimer);
+          setScrollUiVisible(true);
+        }
+      });
+
+      hudBar.addEventListener('focusout', () => {
+        scheduleHudFadeOut();
+      });
+
+      const updateScroll = (revealHud = false) => {
+        const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+        const ratio = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+        percentEl.textContent = `${Math.round(ratio * 100)}%`;
+
+        if (!supportsScrollTimeline) {
+          progressEl.style.transform = `scaleX(${ratio})`;
+        }
+
+        if (revealHud) {
+          showHud();
+        }
+      };
+
+      window.addEventListener('scroll', () => updateScroll(true), { passive: true });
+      window.addEventListener('resize', () => updateScroll(false), { passive: true });
+      updateScroll(false);
+      scheduleHudFadeOut();
+
+      const setActiveNav = (id) => {
+        for (const link of navLinks) {
+          link.classList.toggle('is-active', link.dataset.section === id);
+        }
+      };
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const visible = entries
+            .filter((entry) => entry.isIntersecting)
+            .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+          if (visible.length > 0) {
+            setActiveNav(visible[0].target.id);
+          }
+        },
+        { rootMargin: '-25% 0px -55% 0px', threshold: [0, 0.25, 0.5, 0.75] }
+      );
+
+      for (const section of sections) {
+        observer.observe(section);
+      }
+    })();
   </script>
 
-  <div style="height: 100%;">
-    <img class="logo" src="resource/SVG/個人簡介.svg" alt="個人簡介">
-    <div style="margin-left: -6%;">
-      <p>&emsp;&emsp;<span id="year"></span>歲，是學生。</p>
-      <p>&emsp;&emsp;現長居浙江，愛好攝影、小提琴（好久沒練了），喜歡擺弄各種小玩意，<button
-          class="linkbutton">成分複雜</button>。喜歡探索新事物。目前正在努力學習各項知識中......</p>
-      <p>&emsp;&emsp;INFP，努力學習社交中，歡迎PM，熟悉後也許可面基？聯繫方式見下方。</p>
-    </div>
+  <!-- ========================================================================
+       3D 朗基努斯之槍（輕量化 GLB + 阻尼慣性拖拽 + 滾動聯動）
+       ======================================================================== -->
+  <script type="module">
+    import * as THREE from 'three';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-    <script> //JS判断年龄
-      var date = new Date();
-      var year = date.getFullYear();
-      var span = document.getElementById("year");
-      span.innerHTML = year - 2005;
-    </script>
+    const desktopQuery = window.matchMedia('(min-width: 1024px)');
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let initialized = false;
 
-  </div>
+    function initThreeScene() {
+      if (initialized || !desktopQuery.matches) return;
+      initialized = true;
 
-  <div">
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    </div>
+      const container = document.getElementById('threejs-cross');
+      if (!container) return;
 
-    <div style="height: 100%;">
-      <img class="logo" src="resource/SVG/聯繫方式.svg" alt="聯繫方式">
-      <br>
-      <button class="button" onclick="window.open('https://twitter.com/Cicada0001', '_blank')">Twitter</button>
-      <br>
-      <button class="button" onclick="window.open('https://t.me/CicadaLYW', '_blank')">Telegram</button>
-      <br>
-      <button class="button" onclick="window.open('https://mastodon.social/@Cicada0001', '_blank')">Mastodon</button>
-      <br>
-      <button class="button" onclick="window.open('https://github.com/cicada000', '_blank')">Github</button>
-      <br>
-      <button class="button" onclick="window.open('https://www.instagram.com/cicada000', '_blank')">Instagram</button>
-      <br>
-      <button class="button" onclick="window.open('mailto:cicada000@cicada000.work', '_blank')">Email</button>
-      <br>
-      <button class="button" onclick="window.open('https://steamcommunity.com/id/cicada000', '_blank')">Steam</button>
-    </div>
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 200);
+      camera.position.set(0, 0, 29);
 
-    <div style="height: 100%;">
-      <img class="logo" src="resource/SVG/個人網站.svg" alt="個人網站">
-      <br>
-      <button class="button" onclick="window.open('https://blog.cicada000.work', '_blank')">Blog</button>
-      <br>
-      <button class="button" onclick="window.open('https://onetextimage.cicada000.work', '_blank')">OneText</button>
-      <br>
-      <button class="button" onclick="window.open('https://onetext.cicada000.work', '_blank')">OneText API</button>
-      <br>
-      <button class="button"
-        onclick="window.location.href='https://seiheki-demo.cicada000.work/'">Hugo-Theme-Seiheki</button>
-    </div>
+      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'high-performance' });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.15;
+      container.appendChild(renderer.domElement);
 
-    <div style="min-height: 100%; margin-left: 15%; width: 60%; max-width: 670px;">
-      <img class="logo" src="resource/SVG/友鏈.svg" alt="友鏈" style="margin-left: 0;">
-      <br>
-      <button class="linkbox" onclick="window.open('https://with.fish/', '_blank')">
-        <img src="https://with.fish/favicon.jpg" onerror="this.src='resource/SVG/404.svg'" alt="lz233"
-          referrerpolicy="no-referrer" class="img">
-        <br>
-        with.fish
-        <br>
-        魚類觀測研究所
-      </button>
+      const resizeRenderer = () => {
+        const rect = container.getBoundingClientRect();
+        const size = Math.max(240, Math.round(Math.min(rect.width, rect.height)));
+        renderer.setSize(size, size, false);
+        camera.aspect = 1;
+        camera.updateProjectionMatrix();
+      };
+      resizeRenderer();
+      new ResizeObserver(resizeRenderer).observe(container);
 
-      <button class="linkbox" onclick="window.open('https://noxylva.org', '_blank')">
-        <img src="https://nedifinita.com/picture.jpg" onerror="this.src='resource/SVG/404.svg'" alt="nedifinita"
-          referrerpolicy="no-referrer" class="img">
-        <br>
-        Nedifinita
-        <br>
-        El nom és obligatori
-      </button>
+      // 燈光：主光 + 輪廓背光 + 柔和環境光，突出金屬螺旋質感
+      const keyLight = new THREE.DirectionalLight(0xffffff, 1.8);
+      keyLight.position.set(6, 12, 10);
+      scene.add(keyLight);
 
-      <button class="linkbox" onclick="window.open('https://cynosura.one', '_blank')">
-        <img src="https://cynosura.one/img/avatar.webp" onerror="this.src='resource/SVG/404.svg'" alt="Cynosura"
-          referrerpolicy="no-referrer" class="img">
-        <br>
-        Cynosura
-        <br>
-        &emsp;
-      </button>
+      const rimLight = new THREE.DirectionalLight(0xffccd2, 1.55);
+      rimLight.position.set(-10, -4, -8);
+      scene.add(rimLight);
 
-      <button class="linkbox" onclick="window.open('https://stv.pm', '_blank')">
-        <img src="https://stv.pm/favicon.jpeg" onerror="this.src='resource/SVG/404.svg'" alt="Steven Lynn"
-          referrerpolicy="no-referrer" class="img">
-        <br>
-        Steven Lynn
-        <br>
-        &emsp;
-      </button>
+      const fillLight = new THREE.DirectionalLight(0xffffff, 0.6);
+      fillLight.position.set(-6, 6, 8);
+      scene.add(fillLight);
 
-      <button class="linkbox" onclick="window.open('https://blog.hightechbrain.net', '_blank')">
-        <img src="https://blog.hightechbrain.net/img/avatar.png" onerror="this.src='resource/SVG/404.svg'"
-          alt="hightechbrain" referrerpolicy="no-referrer" class="img">
-        <br>
-        高科技的指揮中心
-        <br>
-        &emsp;
-      </button>
+      const ambient = new THREE.AmbientLight(0xffffff, 0.7);
+      scene.add(ambient);
 
-      <button class="linkbox" onclick="window.open('https://www.fantanstic.top', '_blank')">
-        <img src="https://www.fantanstic.top/img/head.jpg" onerror="this.src='resource/SVG/404.svg'" alt="hightechbrain"
-          referrerpolicy="no-referrer" class="img">
-        <br>
-        老陳の鹹魚日常
-        <br>
-        Life is fantanstic.
-      </button>
+      // 朗基努斯深紅金屬材質
+      const lanceMaterial = new THREE.MeshStandardMaterial({
+        color: 0x850918,
+        emissive: 0x1c0205,
+        metalness: 0.42,
+        roughness: 0.42,
+      });
 
-      <button class="linkbox" onclick="window.open('https://www.moraex.com', '_blank')">
-        <img src="https://moraex.com/wp-content/uploads/2025/12/mexbloglogo.svg"
-          onerror="this.src='resource/SVG/404.svg'" alt="moraex" referrerpolicy="no-referrer" class="img">
-        <br>
-        MoraEX博客
-        <br>
-        學無止境 知行合一
-      </button>
+      const pivot = new THREE.Group();
+      pivot.rotation.z = -0.14;
+      scene.add(pivot);
 
-      <button class="linkbox" onclick="window.open('https://uguisu.ch', '_blank')">
-        <img src="https://uguisu.ch/wp-content/uploads/favicon-150x150.png" onerror="this.src='resource/SVG/404.svg'"
-          alt="uguisu" referrerpolicy="no-referrer" class="img">
-        <br>
-        鶯茶
-        <br>
-        Warbler's Tea
-      </button>
+      let modelLoaded = false;
+      let activeModel = null;
+      let sharedCenter = null;
 
-      <button class="linkbox" onclick="window.open('https://seimo.cn', '_blank')">
-        <img src="https://s1.ax1x.com/2023/07/28/pCzo9vF.jpg" onerror="this.src='resource/SVG/404.svg'" alt="seimo"
-          referrerpolicy="no-referrer" class="img">
-        <br>
-        Seimo's Homepage
-        <br>
-        不負熱愛，奔赴山河。
-      </button>
-
-      <button class="linkbox" onclick="window.open('https://blog.messyghost.net', '_blank')">
-        <img src="https://blog.messyghost.net/favicon.ico" onerror="this.src='resource/SVG/404.svg'" alt="messyghost"
-          referrerpolicy="no-referrer" class="img">
-        <br>
-        Messy Ghost's Blog
-        <br>
-        仍然在學習中……
-      </button>
-
-      <button class="linkbox" onclick="window.open('https://ivansnow02.github.io', '_blank')">
-        <img src="https://blog.ivansnow02.xyz/img/avatar.png" onerror="this.src='resource/SVG/404.svg'"
-          alt="Snow's Blog" referrerpolicy="no-referrer" class="img">
-        <br>
-        Snow's Blog
-        <br>
-        Ivan Snow
-      </button>
-
-      <button class="linkbox" onclick="window.open('https://blog.xinshijiededa.men', '_blank')">
-        <img src="https://raw.githubusercontent.com/OverflowCat/blog/test_a/imgs/avatar/xni.png"
-          onerror="this.src='resource/SVG/404.svg'" alt="xinshijiededamen" referrerpolicy="no-referrer" class="img">
-        <br>
-        新世界的大门
-        <br>
-        悟已往之不諫，知來者之可追
-      </button>
-
-      <button class="linkbox" onclick="window.open('https://www.aprdec.top', '_blank')">
-        <img src="https://luchetuchuang.oss-cn-beijing.aliyuncs.com/mcskins/aptdec.jpg"
-          onerror="this.src='resource/SVG/404.svg'" alt="xinshijiededamen" referrerpolicy="no-referrer" class="img">
-        <br>
-        孟夏十二の天空
-        <br>
-        学习,还是学习
-      </button>
-
-      <button class="linkbox" onclick="window.open('https://lvyovo-wiki.tech', '_blank')">
-        <img src="https://lvyovo-wiki.tech/images/avatar.png"
-          onerror="this.src='resource/SVG/404.svg'" alt="xinshijiededamen" referrerpolicy="no-referrer" class="img">
-        <br>
-        lvy-neko
-        <br>
-        &emsp;
-      </button>
-
-    </div>
-
-    <div id="threejs-cross"></div>
-    <script>
-      if (window.matchMedia("(min-aspect-ratio: 1)").matches) {
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
-        camera.position.z = 30;
-
-        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-        renderer.setSize(500, 500);
-        renderer.setPixelRatio(window.devicePixelRatio);
-        const container = document.getElementById('threejs-cross');
-        container.appendChild(renderer.domElement);
-
-        // 灯光
-        const light = new THREE.DirectionalLight(0xffffff, 1);
-        light.position.set(5, 10, 7.5);
-        scene.add(light);
-
-        const ambient = new THREE.AmbientLight(0xffffff, 0.6);
-        scene.add(ambient);
-
-        // 加载OBJ模型
-        const loader = new THREE.OBJLoader();
-        let model;
-        loader.load('resource/朗基努斯之枪.obj', function (obj) {
-          model = obj;
-          model.scale.set(1.5, 1.5, 1.5); // 根据需要调整大小
-
-          // 为所有 mesh 设置基础材质
-          model.traverse(function (child) {
-            if (child.isMesh) {
-              child.material = new THREE.MeshStandardMaterial({
-                color: 0x6C0712, // 灰色
-                metalness: 0.3,
-                roughness: 0.7
-              });
-            }
-          });
-
-          scene.add(model);
+      const prepareModel = (model) => {
+        model.traverse((child) => {
+          if (child.isMesh) {
+            child.geometry.computeVertexNormals();
+            child.material = lanceMaterial;
+          }
         });
 
-        // 交互逻辑
-        let isDragging = false;
-        let previousMouseX = 0;
-        let previousMouseY = 0;
-        let autoRotate = true;
-
-        const onPointerDown = (event) => {
-          isDragging = true;
-          autoRotate = false;
-          previousMouseX = event.clientX || (event.touches && event.touches[0].clientX);
-          previousMouseY = event.clientY || (event.touches && event.touches[0].clientY);
-        };
-
-        const onPointerMove = (event) => {
-          if (!isDragging || !model) return;
-
-          if (event.cancelable) event.preventDefault();
-
-          const currentX = event.clientX || (event.touches && event.touches[0].clientX);
-          const currentY = event.clientY || (event.touches && event.touches[0].clientY);
-
-          const deltaX = currentX - previousMouseX;
-          const deltaY = currentY - previousMouseY;
-
-          model.rotation.y += deltaX * 0.01;
-          model.rotation.x += deltaY * 0.01;
-
-          previousMouseX = currentX;
-          previousMouseY = currentY;
-        };
-
-        const onPointerUp = () => {
-          isDragging = false;
-          setTimeout(() => {
-            if (!isDragging) autoRotate = true;
-          }, 1000);
-        };
-
-        container.addEventListener('mousedown', onPointerDown);
-        window.addEventListener('mousemove', onPointerMove);
-        window.addEventListener('mouseup', onPointerUp);
-
-        container.addEventListener('touchstart', onPointerDown, { passive: false });
-        window.addEventListener('touchmove', onPointerMove, { passive: false });
-        window.addEventListener('touchend', onPointerUp);
-
-        function animate() {
-          requestAnimationFrame(animate);
-          if (model && autoRotate) {
-            model.rotation.y += 0.005;
-            model.rotation.x += 0.001;
-            model.rotation.z += 0.001;
-          }
-          renderer.render(scene, camera);
+        // 粗模與細模共用同一個中心偏移量，替換時零位移跳動
+        if (!sharedCenter) {
+          const box = new THREE.Box3().setFromObject(model);
+          sharedCenter = box.getCenter(new THREE.Vector3());
         }
-        animate();
-      }
-    </script>
+        model.position.sub(sharedCenter);
+        model.scale.setScalar(1.55);
+        return model;
+      };
+
+      const mountModel = (nextModel) => {
+        const prevModel = activeModel;
+        pivot.add(nextModel);
+        activeModel = nextModel;
+
+        if (prevModel) {
+          pivot.remove(prevModel);
+          prevModel.traverse((child) => {
+            if (child.isMesh && child.geometry) {
+              child.geometry.dispose();
+            }
+          });
+        }
+
+        if (!modelLoaded) {
+          modelLoaded = true;
+          container.classList.add('is-ready');
+        }
+      };
+
+      const loader = new GLTFLoader();
+
+      const loadHighDetail = () => {
+        if (navigator.connection && navigator.connection.saveData) return;
+        loader.load('resource/lance-of-longinus-high.glb', (gltf) => {
+          mountModel(prepareModel(gltf.scene));
+        });
+      };
+
+      // 兩階段漸進加載：先秒開 69KB 粗模，再於背景靜默下載 3.1MB 精模並無縫替換
+      loader.load(
+        'resource/lance-of-longinus-low.glb',
+        (gltf) => {
+          mountModel(prepareModel(gltf.scene));
+          loadHighDetail();
+        },
+        undefined,
+        () => {
+          loadHighDetail();
+        }
+      );
+
+      // 阻尼慣性拖拽 + 滾動聯動
+      let isDragging = false;
+      let prevX = 0;
+      let prevY = 0;
+      let velX = 0;
+      let velY = 0;
+      let userRotX = 0;
+      let userRotY = 0;
+      let autoSpinY = 0;
+      let autoRotate = true;
+      let resumeTimer = null;
+      let targetScrollRatio = 0;
+      let smoothScrollRatio = 0;
+
+      const updateScrollTarget = () => {
+        const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+        targetScrollRatio = scrollable > 0 ? window.scrollY / scrollable : 0;
+      };
+      window.addEventListener('scroll', updateScrollTarget, { passive: true });
+      updateScrollTarget();
+
+      container.addEventListener('pointerdown', (e) => {
+        isDragging = true;
+        autoRotate = false;
+        clearTimeout(resumeTimer);
+        prevX = e.clientX;
+        prevY = e.clientY;
+        velX = 0;
+        velY = 0;
+        container.classList.add('is-dragging');
+        container.setPointerCapture(e.pointerId);
+      });
+
+      container.addEventListener('pointermove', (e) => {
+        if (!isDragging) return;
+        const dx = e.clientX - prevX;
+        const dy = e.clientY - prevY;
+        prevX = e.clientX;
+        prevY = e.clientY;
+
+        velY = dx * 0.009;
+        velX = dy * 0.009;
+        userRotY += velY;
+        userRotX += velX;
+      });
+
+      const endDrag = () => {
+        if (!isDragging) return;
+        isDragging = false;
+        container.classList.remove('is-dragging');
+        clearTimeout(resumeTimer);
+        resumeTimer = setTimeout(() => {
+          if (!isDragging) autoRotate = true;
+        }, 1200);
+      };
+
+      container.addEventListener('pointerup', endDrag);
+      container.addEventListener('pointercancel', endDrag);
+
+      const animate = () => {
+        requestAnimationFrame(animate);
+        if (!modelLoaded || !desktopQuery.matches) return;
+
+        const reduceMotion = reducedMotionQuery.matches;
+
+        if (!isDragging) {
+          userRotY += velY;
+          userRotX += velX;
+          velX *= 0.93;
+          velY *= 0.93;
+
+          if (autoRotate && !reduceMotion) {
+            autoSpinY += 0.0045;
+          }
+        }
+
+        if (!reduceMotion) {
+          smoothScrollRatio += (targetScrollRatio - smoothScrollRatio) * 0.08;
+        }
+
+        const scrollTwistY = reduceMotion ? 0 : smoothScrollRatio * Math.PI * 1.1;
+        const scrollTiltZ = reduceMotion ? -0.14 : -0.14 + smoothScrollRatio * 0.28;
+
+        pivot.rotation.y = autoSpinY + userRotY + scrollTwistY;
+        pivot.rotation.x = userRotX + (reduceMotion ? 0 : Math.sin(autoSpinY * 0.6) * 0.08);
+        pivot.rotation.z = scrollTiltZ;
+
+        renderer.render(scene, camera);
+      };
+      animate();
+    }
+
+    initThreeScene();
+    desktopQuery.addEventListener('change', initThreeScene);
+  </script>
 </body>
 
 </html>
