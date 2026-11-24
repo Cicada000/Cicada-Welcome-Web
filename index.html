@@ -9,7 +9,7 @@
     try {
       document.querySelector('meta[name="color-scheme"]').content =
         localStorage.getItem('color-scheme') ?? 'light dark';
-    } catch (_) {}
+    } catch (_) { }
   </script>
   <title>Cicada000's Website</title>
   <link rel="icon" href="https://cdn.jsdelivr.net/gh/Cicada000/Cicada000/icon.ico">
@@ -48,15 +48,19 @@
     <button type="button" class="hud-theme-btn" id="theme-toggle" title="切換明暗主題">
       <!-- 暗色模式下顯示太陽（點擊切換為淺色） -->
       <span class="icon-sun">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"
+          aria-hidden="true">
           <circle cx="12" cy="12" r="4"></circle>
-          <path d="M12 2v3M12 19v3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M2 12h3M19 12h3M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12"></path>
+          <path
+            d="M12 2v3M12 19v3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M2 12h3M19 12h3M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12">
+          </path>
         </svg>
         <span class="sr-only">切換為淺色模式</span>
       </span>
       <!-- 淺色模式下顯示月亮（點擊切換為暗色） -->
       <span class="icon-moon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"
+          aria-hidden="true">
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
         </svg>
         <span class="sr-only">切換為暗色模式</span>
@@ -75,7 +79,9 @@
 
       <div class="profile-body">
         <p><span id="year" class="age-number"></span>歲，是學生。</p>
-        <p>現長居浙江，愛好攝影、小提琴（好久沒練了），喜歡擺弄各種小玩意，<button type="button" class="ingredient-trigger" id="ingredient-toggle" aria-expanded="false" aria-controls="ingredient-panel">成分複雜<span class="trigger-sign" aria-hidden="true">+</span></button>。喜歡探索新事物。目前正在努力學習各項知識中......</p>
+        <p>現長居浙江，愛好攝影、小提琴（好久沒練了），喜歡擺弄各種小玩意，<button type="button" class="ingredient-trigger" id="ingredient-toggle"
+            aria-expanded="false" aria-controls="ingredient-panel">成分複雜<span class="trigger-sign"
+              aria-hidden="true">+</span></button>。喜歡探索新事物。目前正在努力學習各項知識中......</p>
         <p>INFP，努力學習社交中，歡迎PM，熟悉後也許可面基？聯繫方式見下方。</p>
       </div>
 
@@ -202,7 +208,8 @@
       <div class="friend-grid">
         <a class="friend-card" href="https://with.fish/" target="_blank" rel="noopener noreferrer">
           <div class="friend-card-top">
-            <img class="friend-avatar" src="https://with.fish/favicon.jpg" onerror="this.src='resource/SVG/404.svg'" alt="with.fish" referrerpolicy="no-referrer" loading="lazy">
+            <img class="friend-avatar" src="https://with.fish/favicon.jpg" onerror="this.src='resource/SVG/404.svg'"
+              alt="with.fish" referrerpolicy="no-referrer" loading="lazy">
             <span class="action-arrow" aria-hidden="true">↗</span>
           </div>
           <div class="friend-card-info">
@@ -213,7 +220,8 @@
 
         <a class="friend-card" href="https://noxylva.org" target="_blank" rel="noopener noreferrer">
           <div class="friend-card-top">
-            <img class="friend-avatar" src="https://nedifinita.com/picture.jpg" onerror="this.src='resource/SVG/404.svg'" alt="Nedifinita" referrerpolicy="no-referrer" loading="lazy">
+            <img class="friend-avatar" src="https://nedifinita.com/picture.jpg"
+              onerror="this.src='resource/SVG/404.svg'" alt="Nedifinita" referrerpolicy="no-referrer" loading="lazy">
             <span class="action-arrow" aria-hidden="true">↗</span>
           </div>
           <div class="friend-card-info">
@@ -224,7 +232,8 @@
 
         <a class="friend-card" href="https://cynosura.one" target="_blank" rel="noopener noreferrer">
           <div class="friend-card-top">
-            <img class="friend-avatar" src="https://cynosura.one/img/avatar.webp" onerror="this.src='resource/SVG/404.svg'" alt="Cynosura" referrerpolicy="no-referrer" loading="lazy">
+            <img class="friend-avatar" src="https://cynosura.one/img/avatar.webp"
+              onerror="this.src='resource/SVG/404.svg'" alt="Cynosura" referrerpolicy="no-referrer" loading="lazy">
             <span class="action-arrow" aria-hidden="true">↗</span>
           </div>
           <div class="friend-card-info">
@@ -234,7 +243,8 @@
 
         <a class="friend-card" href="https://stv.pm" target="_blank" rel="noopener noreferrer">
           <div class="friend-card-top">
-            <img class="friend-avatar" src="https://stv.pm/favicon.jpeg" onerror="this.src='resource/SVG/404.svg'" alt="Steven Lynn" referrerpolicy="no-referrer" loading="lazy">
+            <img class="friend-avatar" src="https://stv.pm/favicon.jpeg" onerror="this.src='resource/SVG/404.svg'"
+              alt="Steven Lynn" referrerpolicy="no-referrer" loading="lazy">
             <span class="action-arrow" aria-hidden="true">↗</span>
           </div>
           <div class="friend-card-info">
@@ -244,7 +254,8 @@
 
         <a class="friend-card" href="https://blog.hightechbrain.net" target="_blank" rel="noopener noreferrer">
           <div class="friend-card-top">
-            <img class="friend-avatar" src="https://blog.hightechbrain.net/img/avatar.png" onerror="this.src='resource/SVG/404.svg'" alt="高科技的指揮中心" referrerpolicy="no-referrer" loading="lazy">
+            <img class="friend-avatar" src="https://blog.hightechbrain.net/img/avatar.png"
+              onerror="this.src='resource/SVG/404.svg'" alt="高科技的指揮中心" referrerpolicy="no-referrer" loading="lazy">
             <span class="action-arrow" aria-hidden="true">↗</span>
           </div>
           <div class="friend-card-info">
@@ -254,7 +265,8 @@
 
         <a class="friend-card" href="https://www.fantanstic.top" target="_blank" rel="noopener noreferrer">
           <div class="friend-card-top">
-            <img class="friend-avatar" src="https://www.fantanstic.top/img/head.jpg" onerror="this.src='resource/SVG/404.svg'" alt="老陳の鹹魚日常" referrerpolicy="no-referrer" loading="lazy">
+            <img class="friend-avatar" src="https://www.fantanstic.top/img/head.jpg"
+              onerror="this.src='resource/SVG/404.svg'" alt="老陳の鹹魚日常" referrerpolicy="no-referrer" loading="lazy">
             <span class="action-arrow" aria-hidden="true">↗</span>
           </div>
           <div class="friend-card-info">
@@ -265,7 +277,8 @@
 
         <a class="friend-card" href="https://www.moraex.com" target="_blank" rel="noopener noreferrer">
           <div class="friend-card-top">
-            <img class="friend-avatar" src="https://moraex.com/wp-content/uploads/2025/12/mexbloglogo.svg" onerror="this.src='resource/SVG/404.svg'" alt="MoraEX博客" referrerpolicy="no-referrer" loading="lazy">
+            <img class="friend-avatar" src="https://moraex.com/wp-content/uploads/2025/12/mexbloglogo.svg"
+              onerror="this.src='resource/SVG/404.svg'" alt="MoraEX博客" referrerpolicy="no-referrer" loading="lazy">
             <span class="action-arrow" aria-hidden="true">↗</span>
           </div>
           <div class="friend-card-info">
@@ -276,7 +289,8 @@
 
         <a class="friend-card" href="https://uguisu.ch" target="_blank" rel="noopener noreferrer">
           <div class="friend-card-top">
-            <img class="friend-avatar" src="https://uguisu.ch/wp-content/uploads/favicon-150x150.png" onerror="this.src='resource/SVG/404.svg'" alt="鶯茶" referrerpolicy="no-referrer" loading="lazy">
+            <img class="friend-avatar" src="https://uguisu.ch/wp-content/uploads/favicon-150x150.png"
+              onerror="this.src='resource/SVG/404.svg'" alt="鶯茶" referrerpolicy="no-referrer" loading="lazy">
             <span class="action-arrow" aria-hidden="true">↗</span>
           </div>
           <div class="friend-card-info">
@@ -287,7 +301,9 @@
 
         <a class="friend-card" href="https://seimo.cn" target="_blank" rel="noopener noreferrer">
           <div class="friend-card-top">
-            <img class="friend-avatar" src="https://s1.ax1x.com/2023/07/28/pCzo9vF.jpg" onerror="this.src='resource/SVG/404.svg'" alt="Seimo's Homepage" referrerpolicy="no-referrer" loading="lazy">
+            <img class="friend-avatar" src="https://s1.ax1x.com/2023/07/28/pCzo9vF.jpg"
+              onerror="this.src='resource/SVG/404.svg'" alt="Seimo's Homepage" referrerpolicy="no-referrer"
+              loading="lazy">
             <span class="action-arrow" aria-hidden="true">↗</span>
           </div>
           <div class="friend-card-info">
@@ -298,7 +314,9 @@
 
         <a class="friend-card" href="https://blog.messyghost.net" target="_blank" rel="noopener noreferrer">
           <div class="friend-card-top">
-            <img class="friend-avatar" src="https://blog.messyghost.net/favicon.ico" onerror="this.src='resource/SVG/404.svg'" alt="Messy Ghost's Blog" referrerpolicy="no-referrer" loading="lazy">
+            <img class="friend-avatar" src="https://blog.messyghost.net/favicon.ico"
+              onerror="this.src='resource/SVG/404.svg'" alt="Messy Ghost's Blog" referrerpolicy="no-referrer"
+              loading="lazy">
             <span class="action-arrow" aria-hidden="true">↗</span>
           </div>
           <div class="friend-card-info">
@@ -309,7 +327,8 @@
 
         <a class="friend-card" href="https://ivansnow02.github.io" target="_blank" rel="noopener noreferrer">
           <div class="friend-card-top">
-            <img class="friend-avatar" src="https://blog.ivansnow02.xyz/img/avatar.png" onerror="this.src='resource/SVG/404.svg'" alt="Snow's Blog" referrerpolicy="no-referrer" loading="lazy">
+            <img class="friend-avatar" src="https://blog.ivansnow02.xyz/img/avatar.png"
+              onerror="this.src='resource/SVG/404.svg'" alt="Snow's Blog" referrerpolicy="no-referrer" loading="lazy">
             <span class="action-arrow" aria-hidden="true">↗</span>
           </div>
           <div class="friend-card-info">
@@ -320,7 +339,9 @@
 
         <a class="friend-card" href="https://blog.xinshijiededa.men" target="_blank" rel="noopener noreferrer">
           <div class="friend-card-top">
-            <img class="friend-avatar" src="https://raw.githubusercontent.com/OverflowCat/blog/test_a/imgs/avatar/xni.png" onerror="this.src='resource/SVG/404.svg'" alt="新世界的大门" referrerpolicy="no-referrer" loading="lazy">
+            <img class="friend-avatar"
+              src="https://raw.githubusercontent.com/OverflowCat/blog/test_a/imgs/avatar/xni.png"
+              onerror="this.src='resource/SVG/404.svg'" alt="新世界的大门" referrerpolicy="no-referrer" loading="lazy">
             <span class="action-arrow" aria-hidden="true">↗</span>
           </div>
           <div class="friend-card-info">
@@ -331,7 +352,8 @@
 
         <a class="friend-card" href="https://www.aprdec.top" target="_blank" rel="noopener noreferrer">
           <div class="friend-card-top">
-            <img class="friend-avatar" src="https://luchetuchuang.oss-cn-beijing.aliyuncs.com/mcskins/aptdec.jpg" onerror="this.src='resource/SVG/404.svg'" alt="孟夏十二の天空" referrerpolicy="no-referrer" loading="lazy">
+            <img class="friend-avatar" src="https://luchetuchuang.oss-cn-beijing.aliyuncs.com/mcskins/aptdec.jpg"
+              onerror="this.src='resource/SVG/404.svg'" alt="孟夏十二の天空" referrerpolicy="no-referrer" loading="lazy">
             <span class="action-arrow" aria-hidden="true">↗</span>
           </div>
           <div class="friend-card-info">
@@ -342,11 +364,23 @@
 
         <a class="friend-card" href="https://lvyovo-wiki.tech" target="_blank" rel="noopener noreferrer">
           <div class="friend-card-top">
-            <img class="friend-avatar" src="https://lvyovo-wiki.tech/images/avatar.png" onerror="this.src='resource/SVG/404.svg'" alt="lvy-neko" referrerpolicy="no-referrer" loading="lazy">
+            <img class="friend-avatar" src="https://lvyovo-wiki.tech/images/avatar.png"
+              onerror="this.src='resource/SVG/404.svg'" alt="lvy-neko" referrerpolicy="no-referrer" loading="lazy">
             <span class="action-arrow" aria-hidden="true">↗</span>
           </div>
           <div class="friend-card-info">
             <span class="friend-name">lvy-neko</span>
+          </div>
+        </a>
+
+        <a class="friend-card" href="https://xyf.dpdns.org" target="_blank" rel="noopener noreferrer">
+          <div class="friend-card-top">
+            <img class="friend-avatar" src="https://xyf.dpdns.org/avatar.jpg" onerror="this.src='resource/SVG/404.svg'"
+              alt="Kison's Website" referrerpolicy="no-referrer" loading="lazy">
+            <span class="action-arrow" aria-hidden="true">↗</span>
+          </div>
+          <div class="friend-card-info">
+            <span class="friend-name">Kison's Website</span>
           </div>
         </a>
       </div>
